@@ -1,40 +1,40 @@
 body {
-	font-family: FontAwesome, Roboto, sans-serif;
+	font-family: 'Font Awesome 5 Free', Roboto, "Helvetica Neue",Helvetica,Arial,sans-serif;
+
 }
 #inspector {
   position: absolute;
-  width: 16%; 
+  width: 15%; 
   height: 90%;
   margin: 0.5% 0.5% 0.5% 0.5%;
   z-index: 0;
-  border-style: solid;
-  border-width: 1px;
   display: block;
+  background-color: #C4DFE640;
 }
 
 #graphProperties {
   position: relative;
-  width: 98%; 
+  width: 100%; 
   height: auto;
-  margin: 1%;
   z-index: 0;
 }
 
 #layoutOptions {
   position: relative;
-  width: 98%; 
-  margin: 1%;
+  width: 100%; 
   z-index: 0;
 }
 
-#cy {
+#cy, #spinner {
   position: absolute;
   width: 82.5%; 
   height: 90%;
   margin: 0.5% 0.5% 0.5% 17%;
+}
+
+#cy {
   z-index: 0;
-  border-style: solid;
-  border-width: 1px;
+  background-color: #C4DFE640;
 }
 
 #fileName {
@@ -50,4 +50,37 @@ body {
 .form-control:focus,.form-control:active {
    outline: none !important;
    box-shadow: none;
+}
+
+.table-header {
+	color: #07575B;
+	font-weight: bold;
+}
+
+.table-striped>tr:nth-child(odd){
+   background-color:red;
+}
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: #66A5AD40; // Choose your own color here
+   width:100%;
+ }
+
+.mynavbar {
+	color: #C4DFE6!important;
+	background-color: #003B46;
+ }
+
+.mybutton {
+	color: #C4DFE6!important;
+	background-color: #07575B!important;
+	border-color: #07575B!important;
+ }
+.mybutton:hover {
+	background-color: #66A5AD!important;
+	border-color: #07575B!important;
+ }
+
+.hide {
+	 display: none!important;
 }

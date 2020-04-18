@@ -1,152 +1,155 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>MARL Layout Demo</title>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="src/css/style.css" rel="stylesheet">    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.5.7/shim.min.js"></script>
-	<script type="text/javascript" src="rl.js"></script>
-	<script type="text/javascript" src="myrl.js"></script>
-	<script>
-	</script>
-	<link href="css/all.css" rel="stylesheet"> <!--load all styles -->
-	<link rel="stylesheet" href="src/css/cytoscape.js-panzoom.css">
-  
-  </head>
-  <body>	
-    <input id="inputFile" type='file' style="display: none" />
-	<nav class="navbar navbar-dark bg-dark">
+	<head>
+		<title>MARL Layout Demo</title>
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
-    <div id="toolbar" class="btn-toolbar mt-2 ml-3" role="toolbar" aria-label="Toolbar with button groups">
-      
-      <div class="btn-group mr-5" role="group" aria-label="First group">
-        <button id="openFile" type="button" class="btn btn-secondary  fa fa-folder-open" data-toggle="tooltip" title="Load json, graphml or tsv file"></button>
-        <button id="saveFile" type="button" class="btn btn-secondary fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
-        <button id="saveJPG" type="button" class="btn btn-secondary fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
-        <button type="button" class="btn btn-secondary fa fa-info-circle" data-toggle="modal" data-target="#exampleModal" title="Info" ></button>
-      </div>
-      
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-secondary" id="exampleModalLabel">Info</h5>
-            </div>
-            <div class="modal-body">
-              <table class="table table-sm table-striped text-dark">
-                <tr>
-                  <th scope="col" class="text-secondary"  style="width: 25%">Key</th>
-                  <th scope="col" class="text-secondary"  style="width: 75%">Functionality</th>
-                </tr>
-                <tr><td>"n"</td><td><span class="text-primary">add new node</span></td></tr>
-                <tr><td>"e"</td><td><span class="text-primary">add edge between two selected nodes</span></td></tr>
-                <tr><td>"Delete"</td><td><span class="text-primary">delete element</span></td></tr>        
-                <tr><td>"l"</td><td><span class="text-primary">run layout</span></td></tr>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>      
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+		<script type="text/javascript" src="rl.js"></script>
+		<script type="text/javascript" src="myrl.js"></script>
+		<script>
+		</script>
+		<link href="css/all.css" rel="stylesheet"> <!--load all styles -->
+		<link rel="stylesheet" href="src/css/cytoscape.js-panzoom.css">
+		<link href="src/css/style.css" rel="stylesheet">    
 
-		<span class="navbar-brand mb-0 h1">Graph:</span>
-      <div class="col-xs-3 mr-5">
-        <select id="samples" class="custom-select">
-          <option>sample1</option>
-          <option>sample2</option>
-          <option>sample3</option>
-          <option>sample4</option>
-          <option>sample5</option>
-        </select>
-      </div>  
+	</head>
+	<body>
+		<input id="inputFile" type='file' style="display: none" />
+		<nav class="navbar navbar-light mynavbar">
 
-		<span class="navbar-brand mb-0 h1">Layout:</span>
+			<div id="toolbar" class="btn-toolbar mt-2 ml-3" style='margin-left: 0px!important;' role="toolbar" aria-label="Toolbar with button groups">
 
-      <div class="col-xs-3 mr-2">
-
-        <select id="layout" class="custom-select">
-          <option>FD</option>
-          <option>MARL</option>
-          <option>Random</option>
-        </select>
-      </div>
-      
-      <div class="btn-group mr-5" role="group" aria-label="First group">
-        <button id="runLayout" type="button" class="btn btn-secondary fa fa-play" data-toggle="tooltip" title="Run layout"></button>
-      </div>
-	  
-		
-	</nav>
-  
-    </div>
-    
-    <div id="inspector">
-      
-      <div id="graphProperties">
-		  <h4 class="text-info ml-2 mt-1">Quality Metrics</h4>
-        <table class="table table-sm table-striped text-dark">
-          <tr><td style="width: 60%"><span class="ml-1">Nodes: </span></td><td><span id="numOfNodes" class="text-primary"></span></td></tr>
-          <tr><td><span class="ml-1">Edges: </span></td><td><span id="numOfEdges" class="text-primary"></span></td></tr>
-          <tr><td><span class="ml-1">Time: </span></td><td><span id="layoutTime" class="text-primary">-</span></td></tr>        
-          <tr><td><span class="ml-1">Edge crosses: </span></td><td><span id="numberOfEdgeCrosses" class="text-primary"></span></td></tr>
-          <tr><td><span class="ml-1">Node overlaps: </span></td><td><span id="numberOfNodeOverlaps" class="text-primary"></span></td></tr>
-          <tr><td><span class="ml-1">Avg. edge length: </span></td><td><span id="averageEdgeLength" class="text-primary"></span></td></tr>
-          <tr><td><span class="ml-1">Total area: </span></td><td><span id="totalArea" class="text-primary"></span></td></tr>
-        </table>
-      </div>
-      <hr style="margin-bottom: 0">
-      <div id="layoutOptions">
-        <h5 class="text-info ml-2">Layout Options</h5>
-        <table class="table table-sm table-striped text-dark">
-          <tr><td style="width: 60%" class="align-middle"><span class="ml-1">Randomize </span></td>
-              <td>
-					  <div class="custom-control custom-checkbox">
-
-                  <input type="checkbox" class="custom-control-input" id="randomize" value="" checked>
-      <label class="custom-control-label" for="randomize"></label>
-                  </div>
-              </td>						
-          </tr>
-          <tr>
-			<td class="align-middle">
-				<span class="ml-1">Iterations</span>
-			</td>
-			<td>
-				<div class="col-xs-2">
-                  <input class='form-control' type="number" id="numIter" value="2500">
+				<div class="btn-group mr-5" role="group" aria-label="First group">
+					<button id="openFile" type="button" class="btn btn-light mybutton  fa fa-folder-open" data-toggle="tooltip" title="Load json, graphml or tsv file"></button>
+					<button id="saveFile" type="button" class="btn btn-light mybutton fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
+					<button id="saveJPG" type="button" class="btn btn-light mybutton fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
+					<button type="button" class="btn btn-light mybutton fa fa-info-circle" data-toggle="modal" data-target="#exampleModal" title="Info" ></button>
 				</div>
-			</td>
-          </tr>
 
-          <tr>
-			<td class="align-middle">
-				<span class="ml-1">Node Repulsion</span>
-			</td>
-			<td>
-				<div class="col-xs-2">
-                  <input class='form-control' type="number" id="repulsionConstant" value="450">
-				</div>
-			</td>
-          </tr>
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title text-secondary" id="exampleModalLabel">Info</h5>
+							</div>
+							<div class="modal-body">
+								<table class="table table-sm table-striped text-dark">
+									<tr>
+										<th scope="col" class="text-secondary"  style="width: 25%">Key</th>
+										<th scope="col" class="text-secondary"  style="width: 75%">Functionality</th>
+									</tr>
+									<tr><td>"n"</td><td><span class="text-primary">add new node</span></td></tr>
+									<tr><td>"e"</td><td><span class="text-primary">add edge between two selected nodes</span></td></tr>
+									<tr><td>"Delete"</td><td><span class="text-primary">delete element</span></td></tr>        
+									<tr><td>"l"</td><td><span class="text-primary">run layout</span></td></tr>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>      
 
-          <tr>
-			<td class="align-middle">
-				<span class="ml-1">Edge Elasticity</span>
-			</td>
-			<td>
-				<div class="col-xs-2">
-                  <input class='form-control' type="number" id="edgeElasticity" value="0.45">
+				<span class="navbar-brand mynavbar mb-0 h1" id='abs'>Graph:</span>
+				<div class="col-xs-3 mr-5">
+					<select id="samples" class="custom-select">
+						<option>sample1</option>
+						<option>sample2</option>
+						<option>sample3</option>
+					</select>
+				</div>  
+
+				<span class="navbar-brand mynavbar mb-0 h1">Layout:</span>
+
+				<div class="col-xs-3 mr-2">
+
+					<select id="layout" class="custom-select">
+						<option>FD</option>
+						<option>SM</option>
+						<option>MARL FD</option>
+						<option>MARL Local Stress</option>
+						<option>MARL Global Stress</option>
+						<option>MARL Custom Reward</option>
+						<option>Random</option>
+					</select>
 				</div>
-			</td>
-          </tr>
-        </table>
-      </div>
       
-    </div>
-    
-    <div id="cy"></div>
-    
-    <script src="cytoscape-tsv.js"></script>
-	  <script src="bundle.js"></script>
-  </body>
+				<div class="btn-group mr-5" role="group" aria-label="First group">
+					<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
+				</div>
+
+
+		</nav>
+
+		<div id="inspector">
+			<div id="graphProperties">
+				<h5 class="table-header ml-2 mt-1">Quality Metrics</h5>
+				<table class="table table-sm table-striped text-dark">
+					<tr><td style="width: 60%"><span class="ml-1">Nodes: </span></td><td><span id="numOfNodes" class="text-dark"></span></td></tr>
+					<tr><td><span class="ml-1">Edges: </span></td><td><span id="numOfEdges" class="text-dark"></span></td></tr>
+					<tr><td><span class="ml-1">Time: </span></td><td><span id="layoutTime" class="text-dark">-</span></td></tr>        
+					<tr><td><span class="ml-1">Edge crosses: </span></td><td><span id="numberOfEdgeCrosses" class="text-dark"></span></td></tr>
+					<tr><td><span class="ml-1">Node overlaps: </span></td><td><span id="numberOfNodeOverlaps" class="text-dark"></span></td></tr>
+					<tr><td><span class="ml-1">Avg. edge length: </span></td><td><span id="averageEdgeLength" class="text-dark"></span></td></tr>
+					<tr><td><span class="ml-1">Total area: </span></td><td><span id="totalArea" class="text-dark"></span></td></tr>
+				</table>
+			</div>
+			<hr style="margin-bottom: 0">
+			<div id="layoutOptions">
+				<h5 class="table-header ml-2">Layout Options</h5>
+				<table class="table table-sm table-striped text-dark">
+					<tr><td style="width: 60%" class="align-middle"><span class="ml-1">Initialization </span></td>
+						<td>
+							<select id="randomize" class="custom-control custom-select">
+								<option selected>Grid</option>
+								<option>Preset</option>
+								<option>Random</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="align-middle">
+							<span class="ml-1">Iterations</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="numIter" value="1000">
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle">
+							<span class="ml-1">Node Repulsion</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="repulsionConstant" value="10000">
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle">
+							<span class="ml-1">Edge Elasticity</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="edgeElasticity" value="0.2">
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+
+		<div id="cy"></div>
+		<div id='spinner' class="d-flex justify-content-center align-items-center hide">
+			<i class="fa fa-spinner fa-spin fa-3x fa-fw text-danger"></i>
+		</div>
+
+		<script src="cytoscape-tsv.js"></script>
+		<script src="bundle.js"></script>
+	</body>
 </html>

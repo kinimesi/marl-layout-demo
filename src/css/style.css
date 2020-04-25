@@ -4,9 +4,9 @@ body {
 }
 #inspector {
   position: absolute;
-  width: 15%; 
+  width: 17%; 
   height: 90%;
-  margin: 0.5% 0.5% 0.5% 0.5%;
+  margin: 0.5% 0.5% 0.5% 0.0%;
   z-index: 0;
   display: block;
   background-color: #C4DFE640;
@@ -27,14 +27,40 @@ body {
 
 #cy, #spinner {
   position: absolute;
-  width: 82.5%; 
+  width: 83.0%; 
   height: 90%;
-  margin: 0.5% 0.5% 0.5% 17%;
+  margin: 0.5% 0.0% 0.5% 17.5%;
 }
 
-#cy {
+#cyLeft, #spinnerLeft {
+  position: absolute;
+  width: 41.0%; 
+  height: 90%;
+  margin: 0.5% 0.5% 0.5% 17.5%;
+}
+
+#cyRight, #spinnerLeft {
+  position: absolute;
+  width: 41.0%; 
+  height: 90%;
+  margin: 0.5% 0.5% 0.0% 59.0%;
+}
+
+#cy, .cy {
   z-index: 0;
   background-color: #C4DFE640;
+}
+
+.layoutDropdownLeft {
+	position: absolute; /* Stay in place */
+	z-index: 1000; /* Stay on top */
+	margin: 0.5% 0.5% 0.5% 17.5%;
+}
+
+.layoutDropdownRight {
+	position: absolute; /* Stay in place */
+	z-index: 1000; /* Stay on top */
+	margin: 0.5% 0.5% 0.0% 59.0%;
 }
 
 #fileName {
@@ -81,6 +107,18 @@ body {
 	border-color: #07575B!important;
  }
 
+.input-group-text {
+	background-color: #C4DFE6!important;
+	border-color: #C4DFE6!important;
+}
+
 .hide {
 	 display: none!important;
+}
+
+.cy-panzoom {
+	margin-top: 5%;
+}
+#cy .cy-panzoom {
+	margin-top: 0%;
 }

@@ -17,11 +17,19 @@
 	</head>
 	<body>
 		<input id="inputFile" type='file' style="display: none" />
-		<nav class="navbar navbar-light mynavbar">
+		<nav class="navbar navbar-expand-lg navbar-dark mynavbar">
 
 			<div id="toolbar" class="btn-toolbar mt-2 ml-3" style='margin-left: 0px!important;' role="toolbar" aria-label="Toolbar with button groups">
+				<ul class="navbar-nav mr-3">
+					<li class="nav-item">
+						<a class="nav-link active" href="#">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="compare.html">Compare</a>
+					</li>
+				</ul>
 
-				<div class="btn-group mr-5" role="group" aria-label="First group">
+				<div class="btn-group mr-3" role="group" aria-label="First group">
 					<button id="openFile" type="button" class="btn btn-light mybutton  fa fa-folder-open" data-toggle="tooltip" title="Load json, graphml or tsv file"></button>
 					<button id="saveFile" type="button" class="btn btn-light mybutton fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
 					<button id="saveJPG" type="button" class="btn btn-light mybutton fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
@@ -50,35 +58,45 @@
 					</div>
 				</div>      
 
-				<span class="navbar-brand mynavbar mb-0 h1" id='abs'>Graph:</span>
 				<div class="col-xs-3 mr-5">
-					<select id="samples" class="custom-select">
-						<option>sample1</option>
-						<option>sample2</option>
-						<option>sample3</option>
-					</select>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="samples">Graph:</label>
+						</div>
+						<select id="samples" class="custom-select">
+							<option value='sample1.json'>sample1</option>
+							<option value='bcspwr01.graphml'>bcspwr01</option>
+							<option value='karate.graphml'>karate</option>
+							<option value='GD99_c.graphml'>GD99_c</option>
+							<option value='bcspwr03.graphml'>bcspwr03</option>
+							<option value='lesmiserables.graphml'>lesmiserables</option>
+						</select>
+					</div>
 				</div>  
 
-				<span class="navbar-brand mynavbar mb-0 h1">Layout:</span>
-
 				<div class="col-xs-3 mr-2">
-
-					<select id="layout" class="custom-select">
-						<option>FD</option>
-						<option>SM</option>
-						<option>MARL FD</option>
-						<option>MARL Local Stress</option>
-						<option>MARL Global Stress</option>
-						<option>MARL Custom Reward</option>
-						<option>Random</option>
-					</select>
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<label class="input-group-text" for="layout">Layout:</label>
+						</div>
+						<select id="layout" class="custom-select">
+							<option>FD</option>
+							<option>FDP</option>
+							<option>SM</option>
+							<option>MARL FD</option>
+							<option>MARL FR</option>
+							<option>MARL Local Stress</option>
+							<option>MARL Global Stress</option>
+							<option>MARL Custom Reward</option>
+							<option>MARL Incremental</option>
+							<option>Random</option>
+						</select>
+						<div class="input-group-append">
+							<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
+							<button id="stopLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
+						</div>
+					</div>
 				</div>
-      
-				<div class="btn-group mr-5" role="group" aria-label="First group">
-					<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
-				</div>
-
-
 		</nav>
 
 		<div id="inspector">
@@ -136,6 +154,16 @@
 						<td>
 							<div class="col-xs-2">
 								<input class='form-control' type="number" id="edgeElasticity" value="0.2">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="align-middle">
+							<span class="ml-1">Max Distance:</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="maxDistance" value="0">
 							</div>
 						</td>
 					</tr>

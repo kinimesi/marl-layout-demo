@@ -19,14 +19,13 @@ class GraphViz {
 		return digraph;
 	}
 
-	runLayout(layoutEngine = 'neato') {
+	runLayout(cy, layoutEngine = 'neato') {
 		var digraph = this.getDigraph();
-		this.viz.renderString(digraph, {engine: layoutEngine, format: 'json0'})
+		this.viz.renderString(digraph, {start: 'rand', engine: layoutEngine, format: 'json0'})
 			.then(result => {
 				let layout = JSON.parse(result);
 				layout.objects.forEach(node => {
 					let pos = node.pos.split(',');
-					console.log( pos[0] + ', ' + pos[1]) 
 					cy.$('#' + node.name).position({
 						x: Number(pos[0]), y: Number(pos[1])
 					});

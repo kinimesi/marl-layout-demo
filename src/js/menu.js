@@ -1,50 +1,67 @@
 import $ from 'jquery';
 import 'bootstrap';
-import {cy} from './cy-utilities';
+import {cy, otherCy} from './cy-utilities';
 import { saveAs } from 'file-saver';
 import {GraphViz} from './GraphViz';
 
 var graphViz = new GraphViz();
 
 $("body").on("change", "#inputFile", function(e, fileObject) {
-  var inputFile = this.files[0] || fileObject;
+	var inputFile = this.files[0] || fileObject;
 
-  if (inputFile) {
-    var fileExtension = inputFile.name.split('.').pop();
-    var r = new FileReader();
-    r.onload = function(e) {
-      cy.remove(cy.elements());
-      var content = e.target.result;
-      if(fileExtension == "graphml" || fileExtension == "xml"){
-        cy.graphml({layoutBy: 'null'});
-        cy.graphml(content);
-      }
-		else if (fileExtension == "json") {
-			cy.add(JSON.parse(content))
+	if (inputFile) {
+		var fileExtension = inputFile.name.split('.').pop();
+		var r = new FileReader();
+		r.onload = function(e) {
+			cy.remove(cy.elements());
+			if (otherCy) {
+				otherCy.elements().remove();
+			}
+			var content = e.target.result;
+			if(fileExtension == "graphml" || fileExtension == "xml"){
+				cy.graphml({layoutBy: 'null'});
+				cy.graphml(content);
+				if (otherCy) {
+					otherCy.graphml({layoutBy: 'null'});
+					otherCy.graphml(content);
+				}
+			}
+			else if (fileExtension == "json") {
+				cy.add(JSON.parse(content))
+				if (otherCy) {
+					otherCy.add(JSON.parse(content))
+				}
+			}
+			else{
+				var tsv = cy.tsv();
+				tsv.importTo(content);        
+				if (otherCy) {
+					tsv = otherCy.tsv();
+					tsv.importTo(content);        
+				}
+			}
+		};
+		r.addEventListener('loadend', function(){
+			if(!fileObject)
+				return;
+			//document.getElementById("fileName").innerHTML = inputFile.name;
+
+			//$("#runLayout").trigger("click");
+			cy.layout({'name': 'grid'}).run();
+			if (otherCy) {
+				otherCy.layout({'name': 'grid'}).run();
+			}
+			evaluate(0);
+		});
+		r.readAsText(inputFile);
+	} else { 
+		alert("Failed to load file");
 	}
-      else{
-        var tsv = cy.tsv();
-        tsv.importTo(content);        
-      }
-    };
-    r.addEventListener('loadend', function(){
-      if(!fileObject)
-			return;
-        //document.getElementById("fileName").innerHTML = inputFile.name;
-      
-      //$("#runLayout").trigger("click");
-	  cy.layout({'name': 'grid'}).run();
-    evaluate(0);
-    });
-    r.readAsText(inputFile);
-  } else { 
-    alert("Failed to load file");
-  }
-  $("#inputFile").val(null);
+	$("#inputFile").val(null);
 });
 
 document.getElementById("openFile").addEventListener("click", function(){
-  //document.getElementById("inputFile").click();
+  document.getElementById("inputFile").click();
 });
 
 function download(filename, text) {
@@ -68,7 +85,7 @@ document.getElementById("saveFile").addEventListener("click", function(){
 });
 
 document.getElementById("saveJPG").addEventListener("click", function(){
-  let jpgContent = cy.jpg({output: "blob", scale: 2, full: true});
+  let jpgContent = cy.jpg({output: "blob", maxHeight: 600, maxWidth: 600, quality: 1, full: true});
   saveAs(jpgContent, "graph.jpg");
 });
 
@@ -101,24 +118,69 @@ function evaluate(layoutTime){
 		}
 		return overlaps;
 	};
-  let evaluate = true;//document.getElementById("evaluate").checked;
-  let graphProperties;
-  if(evaluate)
-    graphProperties = cy.layvo("get").generalProperties();
+	let graphProperties = cy.layvo("get").generalProperties();
 	graphProperties.numberOfNodeOverlaps = findNumberOfOverlappingNodes(cy);
 	document.getElementById("numOfNodes").innerHTML = cy.nodes().length;
 	document.getElementById("numOfEdges").innerHTML = cy.edges().length;
-  document.getElementById("layoutTime").innerHTML = evaluate ? Math.round(layoutTime * 10 ) / 10 + " ms" : "-"; 
-  document.getElementById("numberOfEdgeCrosses").innerHTML = evaluate ? graphProperties.numberOfEdgeCrosses : "-";
-  document.getElementById("numberOfNodeOverlaps").innerHTML = evaluate ? graphProperties.numberOfNodeOverlaps : "-";
-  document.getElementById("averageEdgeLength").innerHTML = evaluate ? Math.round(graphProperties.averageEdgeLength * 10 ) / 10 : "-";
-  document.getElementById("totalArea").innerHTML = evaluate ? Math.round(graphProperties.totalArea * 10 ) / 10 : "-";
+	document.getElementById("layoutTime").innerHTML
+		= Math.round(layoutTime * 10 ) / 10; 
+	document.getElementById("numberOfEdgeCrosses").innerHTML
+		= graphProperties.numberOfEdgeCrosses;
+	document.getElementById("numberOfNodeOverlaps").innerHTML
+		= graphProperties.numberOfNodeOverlaps;
+	document.getElementById("averageEdgeLength").innerHTML
+		= Math.round(graphProperties.averageEdgeLength * 10 ) / 10;
+	document.getElementById("totalArea").innerHTML
+		= Math.round(graphProperties.totalArea * 10 ) / 10;
+
+
+	if (otherCy) {
+		graphProperties = otherCy.layvo("get").generalProperties();
+		graphProperties.numberOfNodeOverlaps = findNumberOfOverlappingNodes(otherCy);
+		document.getElementById("otherNumOfNodes").innerHTML = otherCy.nodes().length;
+		document.getElementById("otherNumOfEdges").innerHTML = otherCy.edges().length;
+		document.getElementById("otherLayoutTime").innerHTML
+			= Math.round(layoutTime * 10 ) / 10; 
+		document.getElementById("otherNumberOfEdgeCrosses").innerHTML
+			= graphProperties.numberOfEdgeCrosses;
+		document.getElementById("otherNumberOfNodeOverlaps").innerHTML
+			= graphProperties.numberOfNodeOverlaps;
+		document.getElementById("otherAverageEdgeLength").innerHTML
+			= Math.round(graphProperties.averageEdgeLength * 10 ) / 10;
+		document.getElementById("otherTotalArea").innerHTML
+			= Math.round(graphProperties.totalArea * 10 ) / 10;
+	}
 }
 
+var layout;
+var otherLayout;
 $("body").on("click", "#runLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("layout").value;
+	layout = runLayout(cy, layoutType);
+});
+$("body").on("click", "#runOtherLayout", function(){
+	$('#spinner').removeClass('hide');
+
+	let layoutType = document.getElementById("otherLayout").value;
+	otherLayout = runLayout(otherCy, layoutType);
+});
+
+
+$("body").on("click", "#stopLayout", function(){
+	if (layout) {
+		layout.stop();
+		layout = null;
+	}
+});
+$("body").on("click", "#stopOtherLayout", function(){
+	if (otherLayout) {
+		otherLayout.stop();
+		otherLayout = null;
+	}
+});
+function runLayout(cy, layoutType) {
 	let quality = 'default';//$("#quality").find("option:selected").text();
 	let randomize = document.getElementById('randomize').value == 'Random';
 	let numIter = document.getElementById("numIter").value;
@@ -130,21 +192,19 @@ $("body").on("click", "#runLayout", function(){
 
 	let startTime;
 	let endTime;
+	let layout;
 
 	if (layoutType == "FD"){
 		startTime = performance.now();
-		cy.layout({name: "cose-bilkent", padding: 20,
+		layout = cy.layout({name: "cose-bilkent", padding: 20,
 			quality:quality, randomize: randomize, animationDuration: 1000,
-			nodeRepulsion: repulsionConstant,
-			edgeElasticity: edgeElasticity,
-			numIter: numIter,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
-			}}).run();
+			}});
 	} else if(layoutType == "MARL FD"){
 		startTime = performance.now();
-		cy.layout({name: "marll", randomize: randomize,
+		layout = cy.layout({name: "marll", randomize: randomize,
 			nodeRepulsion: repulsionConstant,
 			edgeElasticity: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
@@ -152,41 +212,76 @@ $("body").on("click", "#runLayout", function(){
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
-		}).run();
-	}
-	else if(layoutType == "MARL Local Stress"){
+		});
+	} else if(layoutType == "MARL FR"){
 		startTime = performance.now();
-		cy.layout({name: "marll", randomize: randomize,
+		layout = cy.layout({name: "marll", randomize: randomize,
+			nodeRepulsion: repulsionConstant,
+			edgeElasticity: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
-			rewardFunction: 'localStress',
+			rewardFunction: 'forceDirectedFR',
+			idealEdgeLength: 40,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
-		}).run();
+		});
+	} else if(layoutType == "MARL Incremental"){
+		startTime = performance.now();
+		layout = cy.layout({name: "marll", randomize: randomize,
+			nodeRepulsion: repulsionConstant,
+			edgeElasticity: edgeElasticity, refresh: 15,
+			maxIterations: numIter, animate: true,
+			rewardFunction: 'localStress',
+			incremental: true,
+			stop: () => {
+				endTime = performance.now();
+				evaluate(endTime - startTime);
+			},
+		});
+	}
+	else if(layoutType == "MARL Local Stress"){
+		let maxDistance = Number(document.getElementById("maxDistance").value);
+		startTime = performance.now();
+		layout = cy.layout({name: "marll", randomize: randomize,
+			maxIterations: numIter, animate: true,
+			rewardFunction: 'localStress',
+			maxDistance: maxDistance,
+			stop: () => {
+				endTime = performance.now();
+				evaluate(endTime - startTime);
+			},
+		});
 	} else if(layoutType == "MARL Global Stress"){
 		startTime = performance.now();
-		cy.layout({name: "marll", randomize: randomize,
+		layout = cy.layout({name: "marll", randomize: randomize,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'globalStress',
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
-		}).run();
+		});
 	} else if(layoutType == "MARL Custom Reward"){
 		startTime = performance.now();
-		cy.layout({name: "marll", randomize: randomize,
+		layout = cy.layout({name: "marll", randomize: randomize,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'customReward',
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
-		}).run();
+		});
 	} else if(layoutType == "SM"){
 		startTime = performance.now();
-		graphViz.runLayout();
+		graphViz.runLayout(cy);
+		cy.one('layoutstop', () => {
+			endTime = performance.now();
+			evaluate(endTime - startTime);
+		});
+	} else if(layoutType == "FDP"){
+		startTime = performance.now();
+		graphViz.runLayout(cy, 'fdp');
 		cy.one('layoutstop', () => {
 			endTime = performance.now();
 			evaluate(endTime - startTime);
@@ -197,7 +292,10 @@ $("body").on("click", "#runLayout", function(){
 		endTime = performance.now();
 		evaluate(endTime - startTime);    
 	}
-});
+
+	layout.run();
+	return layout;
+};
 
 function loadXMLDoc(fileName) {
 	var xhttp;
@@ -225,7 +323,7 @@ function loadSample(fileName){
 
 $("body").on("change", "#samples", function() {
 	let samples = document.getElementById("samples");
-	let graph = loadSample("samples/"+samples.options[samples.selectedIndex].text+".json");
+	let graph = loadSample("samples/"+samples.value);
 	$("#inputFile").trigger("change", [graph]);
   //document.getElementById("fileName").innerHTML = samples.options[samples.selectedIndex].text + ".json";
 });

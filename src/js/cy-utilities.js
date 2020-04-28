@@ -11,6 +11,7 @@ import panzoom from 'cytoscape-panzoom';
 import marll from 'cytoscape-marll';
 
 import {evaluate} from './menu';
+import {bindHover} from './hover';
 
 cytoscape.use(graphml, $);
 cytoscape.use(fcose);
@@ -41,6 +42,8 @@ cy = window.cy = cytoscape({
 		{
 			selector: 'node',
 			style: {
+				'width': 20,
+				'height': 20,
 				'background-color': '#000000',
 			}
 		}, {
@@ -52,12 +55,18 @@ cy = window.cy = cytoscape({
 		}, {
 			selector: 'node:selected',
 			style: {
-				'background-color': '#dc3545'
+				'background-color': '#b71c1c'
 			}
 		}, {
 			selector: 'edge:selected',
 			style: {
-				'line-color': '#dc3545'
+				'line-color': '#b71c1c'
+			}
+		}, {
+			selector: '.hover',
+			style: {
+				'background-color': '#b71c1c',
+					'line-color': '#b71c1c'
 			}
 		}
 	],
@@ -78,6 +87,8 @@ if (document.getElementById('cyRight')) {
 			{
 				selector: 'node',
 				style: {
+					'width': 20,
+					'height': 20,
 					'background-color': '#000000',
 				}
 			}, {
@@ -89,12 +100,18 @@ if (document.getElementById('cyRight')) {
 			}, {
 				selector: 'node:selected',
 				style: {
-					'background-color': '#dc3545'
+					'background-color': '#b71c1c'
 				}
 			}, {
 				selector: 'edge:selected',
 				style: {
-					'line-color': '#dc3545'
+					'line-color': '#b71c1c'
+				}
+			}, {
+				selector: '.hover',
+				style: {
+					'background-color': '#b71c1c',
+					'line-color': '#b71c1c'
 				}
 			}
 		],
@@ -135,4 +152,34 @@ let applyDataset = dataset => {
 	}
 }
 fetch(`samples/sample1.json`).then( toJson ).then(applyDataset);
+
+if (otherCy ) {
+	bindHover(cy, otherCy);
+	bindHover(otherCy, cy);
+	cy.on('select', ele => {
+		let otherEle = otherCy.$('#' + ele.target.id());
+		if (otherEle && !otherEle.selected()) {
+			otherEle.select();
+		}
+	});
+	cy.on('unselect', ele => {
+		let otherEle = otherCy.$('#' + ele.target.id());
+		if (otherEle && otherEle.selected()) {
+			otherEle.unselect();
+		}
+	});
+
+	otherCy.on('select', ele => {
+		let otherEle = cy.$('#' + ele.target.id());
+		if (otherEle && !otherEle.selected()) {
+			otherEle.select();
+		}
+	});
+	otherCy.on('unselect', ele => {
+		let otherEle = cy.$('#' + ele.target.id());
+		if (otherEle && otherEle.selected()) {
+			otherEle.unselect();
+		}
+	});
+}
 export {cy, otherCy};

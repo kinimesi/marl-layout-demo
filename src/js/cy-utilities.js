@@ -41,12 +41,12 @@ cy = window.cy = cytoscape({
 		{
 			selector: 'node',
 			style: {
-				'background-color': '#07575B',
+				'background-color': '#000000',
 			}
 		}, {
 			selector: 'edge',
 			style: {
-				'line-color': '#66A5AD',
+				'line-color': '#757575',
 				'opacity': 0.25,
 			}
 		}, {
@@ -78,12 +78,12 @@ if (document.getElementById('cyRight')) {
 			{
 				selector: 'node',
 				style: {
-					'background-color': '#07575B',
+					'background-color': '#000000',
 				}
 			}, {
 				selector: 'edge',
 				style: {
-					'line-color': '#66A5AD',
+					'line-color': '#757575',
 					'opacity': 0.25,
 				}
 			}, {

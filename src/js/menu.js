@@ -3,7 +3,9 @@ import 'bootstrap';
 import {cy, otherCy} from './cy-utilities';
 import { saveAs } from 'file-saver';
 import {GraphViz} from './GraphViz';
+import {getQualityScore} from './evaluation';
 
+window.getQualityScore = getQualityScore;
 var graphViz = new GraphViz();
 
 $("body").on("change", "#inputFile", function(e, fileObject) {
@@ -239,6 +241,18 @@ function runLayout(cy, layoutType) {
 				evaluate(endTime - startTime);
 			},
 		});
+	} else if(layoutType == "MARL Hybrid"){
+		startTime = performance.now();
+		layout = cy.layout({name: "marll", randomize: randomize,
+			nodeRepulsion: repulsionConstant,
+			edgeElasticity: edgeElasticity, refresh: 15,
+			maxIterations: numIter, animate: true,
+			rewardFunction: 'hybrid',
+			stop: () => {
+				endTime = performance.now();
+				evaluate(endTime - startTime);
+			},
+		});
 	}
 	else if(layoutType == "MARL Local Stress"){
 		let maxDistance = Number(document.getElementById("maxDistance").value);
@@ -279,7 +293,7 @@ function runLayout(cy, layoutType) {
 			endTime = performance.now();
 			evaluate(endTime - startTime);
 		});
-	} else if(layoutType == "FDP"){
+	} else if(layoutType == "FR"){
 		startTime = performance.now();
 		graphViz.runLayout(cy, 'fdp');
 		cy.one('layoutstop', () => {
@@ -293,7 +307,9 @@ function runLayout(cy, layoutType) {
 		evaluate(endTime - startTime);    
 	}
 
-	layout.run();
+	if (layout) {
+		layout.run();
+	}
 	return layout;
 };
 
@@ -342,7 +358,7 @@ $( document ).keydown(function( event ) {
 				source: cy.nodes(":selected")[0].data("id"),
 				target: cy.nodes(":selected")[1].data("id")}
 			});
-	} else if ( keycode == 46 ) {
+	} else if ( keycode == 68 ) {
 		event.preventDefault();
 		cy.elements(":selected").remove();
 	} else if ( keycode == 76 ) {

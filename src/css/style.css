@@ -4,12 +4,13 @@ body {
 }
 #inspector {
   position: absolute;
-  width: 17%; 
-  height: 90%;
-  margin: 0.5% 0.5% 0.5% 0.0%;
+  width: 17.5%; 
+  height: 92%;
+  margin: 0.5% 0.0% 0.0% 0.0%;
   z-index: 0;
   display: block;
-  background-color: #C4DFE640;
+  background-color: #e3f2fd20;
+  overflow-y:auto;
 }
 
 #graphProperties {
@@ -27,40 +28,40 @@ body {
 
 #cy, #spinner {
   position: absolute;
-  width: 83.0%; 
-  height: 90%;
-  margin: 0.5% 0.0% 0.5% 17.5%;
+  width: 82.5%; 
+  height: 92%;
+  margin: 0.5% 0.0% 0.0% 17.5%;
 }
 
 #cyLeft, #spinnerLeft {
   position: absolute;
   width: 41.0%; 
-  height: 90%;
-  margin: 0.5% 0.5% 0.5% 17.5%;
+  height: 92%;
+  margin: 0.5% 0.0% 0.0% 17.5%;
 }
 
 #cyRight, #spinnerLeft {
   position: absolute;
   width: 41.0%; 
-  height: 90%;
-  margin: 0.5% 0.5% 0.0% 59.0%;
+  height: 92%;
+  margin: 0.5% 0.0% 0.0% 59.0%;
 }
 
 #cy, .cy {
   z-index: 0;
-  background-color: #C4DFE640;
+  border-left: 2px solid #0d47a1;
 }
 
 .layoutDropdownLeft {
 	position: absolute; /* Stay in place */
 	z-index: 1000; /* Stay on top */
-	margin: 0.5% 0.5% 0.5% 17.5%;
+	margin: 0.5% 0.0% 0.5% 18.0%;
 }
 
 .layoutDropdownRight {
 	position: absolute; /* Stay in place */
 	z-index: 1000; /* Stay on top */
-	margin: 0.5% 0.5% 0.0% 59.0%;
+	margin: 0.5% 0.0% 0.0% 59.5%;
 }
 
 #fileName {
@@ -79,7 +80,7 @@ body {
 }
 
 .table-header {
-	color: #07575B;
+	color: #1e88e5;
 	font-weight: bold;
 }
 
@@ -88,28 +89,29 @@ body {
 }
 .table-striped>tbody>tr:nth-child(odd)>td,
 .table-striped>tbody>tr:nth-child(odd)>th {
-   background-color: #66A5AD40; // Choose your own color here
+   background-color: #e3f2fd; // Choose your own color here
    width:100%;
  }
 
 .mynavbar {
-	color: #C4DFE6!important;
-	background-color: #003B46;
+	color: #e3f2fd!important;
+	background-color: #0d47a1;
+	height: 45%!important;
  }
 
 .mybutton {
-	color: #C4DFE6!important;
-	background-color: #07575B!important;
-	border-color: #07575B!important;
+	color: #ffffff!important;
+	background-color: #1976d2!important;
+	border-color: #1976d2!important;
  }
 .mybutton:hover {
-	background-color: #66A5AD!important;
-	border-color: #07575B!important;
+	background-color: #1565c0!important;
+	border-color: #1565c0!important;
  }
 
 .input-group-text {
-	background-color: #C4DFE6!important;
-	border-color: #C4DFE6!important;
+	background-color: #e3f2fd!important;
+	border-color: #e3f2fd!important;
 }
 
 .hide {

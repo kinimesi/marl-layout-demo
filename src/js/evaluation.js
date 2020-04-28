@@ -1,3 +1,4 @@
+function getQualityScore(cy, idealEdgeLength) {
 var generalMetrics = cy.layvo().generalProperties();
 
 function possibleCrossings() {
@@ -11,14 +12,16 @@ function possibleCrossings() {
 }
 
 let crossings = possibleCrossings();
-var nc = 1 - (crossings ? generalMetrics.numberOfEdgeCrosses / crossings : 0);
-var no = 1 - generalMetrics.numberOfNodeOverlaps / cy.nodes().length;
 
-function getEdgeLengthVariance() {
+function getEdgeLengthVariance(idealEdgeLength) {
 	var edges = cy.edges();
 	var variance = 0;
 	var generalMetrics = cy.layvo().generalProperties();
-	var meanEdgeLength = generalMetrics.averageEdgeLength;
+	var meanEdgeLength = idealEdgeLength || generalMetrics.averageEdgeLength;
+	if (!meanEdgeLength) {
+		return 0;
+	};
+
 	for (var i = 0; i < edges.length; i++) {
 		let edge = edges[i]
 		var sourcePos = edge.source().position();
@@ -43,7 +46,6 @@ function calcEdgeLengthVariance(edge, idealEdgeLength) {
 	return ((length - idealEdgeLength)/idealEdgeLength) ** 2;
 }
 
-var ne = 1 - 1 / (1 + variance);
 
 function calcAngle(n,c,m) {
 	let nScrath = n.position();
@@ -70,25 +72,38 @@ function getAngleVariance() {
 
 	cy.nodes().forEach(n => {
 		var arr = n.neighbourhood('node').toArray();
-		arr.sort((a, b) => calcDegree(a, n) - calcDegree(b, n));
-		var length = arr.length;
-		var minAngle = 2 * Math.PI;
-		var angle;
-		for (let i = 0; i < length - 1; i++) {
-			angle = Math.abs(calcAngle(arr[i], n, arr[i+1]));
+		if (arr.length > 1) {
+			arr.sort((a, b) => calcDegree(a, n) - calcDegree(b, n));
+			var length = arr.length;
+			var minAngle = 2 * Math.PI;
+			var angle;
+			for (let i = 0; i < length - 1; i++) {
+				angle = Math.abs(calcAngle(arr[i], n, arr[i+1]));
+				if (angle < minAngle) {
+					minAngle = angle;
+				}
+			}
+
+			angle = Math.abs(calcAngle(arr[length - 1], n, arr[0]))
 			if (angle < minAngle) {
 				minAngle = angle;
 			}
+			let idealAngle = 2 * Math.PI / length;
+			variance += Math.abs((idealAngle - minAngle) / idealAngle);
 		}
-
-		angle = Math.abs(calcAngle(arr[length - 1], n, arr[0]))
-		if (angle < minAngle) {
-			minAngle = angle;
-		}
-		let idealAngle = 2 * Math.PI / length;
-		variance += Math.abs((idealAngle - minAngle) / idealAngle);
 	})
 	return variance / cy.nodes().length;
 }
 
+var nc = 1 - (crossings ? generalMetrics.numberOfEdgeCrosses / crossings : 0);
+var l = cy.nodes().length;
+var no = 1 - generalMetrics.numberOfNodeOverlaps / (l * (l - 1) * 0.5);
+console.log( getAngleVariance()) 
+var ne = 1 / (1 + getEdgeLengthVariance(idealEdgeLength));
 var na = 1 - getAngleVariance();
+var metrics = {'nc': nc, 'no': no, 'ne': ne, 'na': na};
+console.log( metrics) 
+return (nc + no + ne + na) / 4;
+}
+
+export {getQualityScore};

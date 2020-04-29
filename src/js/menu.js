@@ -8,6 +8,18 @@ import {getQualityScore} from './evaluation';
 window.getQualityScore = getQualityScore;
 var graphViz = new GraphViz();
 
+function updateColors(cy, otherCy) {
+	var l = Math.max(cy.nodes().length, otherCy.nodes().length);
+	cy.nodes().forEach((n,i) => {
+		n.css('background-color', d3.interpolateTurbo(i/l));
+		let otherNode = otherCy.$('#' + n.id());
+		if (otherNode) {
+			otherNode.css('background-color', d3.interpolateTurbo(i/l));
+		}
+	})
+}
+
+var layoutPadding = 50;
 $("body").on("change", "#inputFile", function(e, fileObject) {
 	var inputFile = this.files[0] || fileObject;
 
@@ -49,11 +61,12 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 			//document.getElementById("fileName").innerHTML = inputFile.name;
 
 			//$("#runLayout").trigger("click");
-			cy.layout({'name': 'grid'}).run();
+			cy.layout({'name': 'grid', padding: layoutPadding}).run();
 			if (otherCy) {
-				otherCy.layout({'name': 'grid'}).run();
+				otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
 			}
 			evaluate(0);
+			updateColors(cy,otherCy);
 		});
 		r.readAsText(inputFile);
 	} else { 
@@ -160,13 +173,32 @@ $("body").on("click", "#runLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("layout").value;
-	layout = runLayout(cy, layoutType);
+	let randomize = document.getElementById('randomize').value == 'Random';
+	let numIter = document.getElementById("numIter").value;
+	let repulsionConstant = Number(document.getElementById("repulsionConstant").value);
+	let edgeElasticity = Number(document.getElementById("edgeElasticity").value);
+	let maxDistance = Number(document.getElementById("maxDistance").value);
+	console.log( edgeElasticity) 
+	console.log( repulsionConstant) 
+	if (document.getElementById('randomize').value == 'Grid') {
+	  cy.layout({'name': 'grid', padding: layoutPadding}).run();
+	}
+	layout = runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
 });
+
 $("body").on("click", "#runOtherLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("otherLayout").value;
-	otherLayout = runLayout(otherCy, layoutType);
+	let randomize = document.getElementById('randomizeOther').value == 'Random';
+	let numIter = document.getElementById("numIterOther").value;
+	let repulsionConstant = Number(document.getElementById("repulsionConstantOther").value);
+	let edgeElasticity = Number(document.getElementById("edgeElasticityOther").value);
+	let maxDistance = Number(document.getElementById("maxDistanceOther").value);
+	if (document.getElementById('randomizeOther').value == 'Grid') {
+	  otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
+	}
+	otherLayout = runLayout(otherCy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
 });
 
 
@@ -182,24 +214,15 @@ $("body").on("click", "#stopOtherLayout", function(){
 		otherLayout = null;
 	}
 });
-function runLayout(cy, layoutType) {
-	let quality = 'default';//$("#quality").find("option:selected").text();
-	let randomize = document.getElementById('randomize').value == 'Random';
-	let numIter = document.getElementById("numIter").value;
-	let repulsionConstant = document.getElementById("repulsionConstant").value;
-	let edgeElasticity = document.getElementById("edgeElasticity").value;
-	if (document.getElementById('randomize').value == 'Grid') {
-	  cy.layout({'name': 'grid'}).run();
-	}
-
+function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance = 0) {
 	let startTime;
 	let endTime;
 	let layout;
 
 	if (layoutType == "FD"){
 		startTime = performance.now();
-		layout = cy.layout({name: "cose-bilkent", padding: 20,
-			quality:quality, randomize: randomize, animationDuration: 1000,
+		layout = cy.layout({name: "cose-bilkent", padding: layoutPadding,
+			randomize: randomize, animationDuration: 1000,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -207,9 +230,11 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL FD"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
-			nodeRepulsion: repulsionConstant,
-			edgeElasticity: edgeElasticity, refresh: 15,
+			padding: layoutPadding,
+			repulsionConstant: repulsionConstant,
+			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
+			idealEdgeLength: 30,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -218,11 +243,12 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL FR"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
-			nodeRepulsion: repulsionConstant,
-			edgeElasticity: edgeElasticity, refresh: 15,
+			padding: layoutPadding,
+			repulsionConstant: repulsionConstant,
+			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'forceDirectedFR',
-			idealEdgeLength: 40,
+			idealEdgeLength: 25,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -231,8 +257,9 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL Incremental"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
-			nodeRepulsion: repulsionConstant,
-			edgeElasticity: edgeElasticity, refresh: 15,
+			padding: layoutPadding,
+			repulsionConstant: repulsionConstant,
+			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'localStress',
 			incremental: true,
@@ -244,8 +271,10 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL Hybrid"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
-			nodeRepulsion: repulsionConstant,
-			edgeElasticity: edgeElasticity, refresh: 15,
+			padding: layoutPadding,
+			idealEdgeLength: 80,
+			repulsionConstant: repulsionConstant,
+			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'hybrid',
 			stop: () => {
@@ -255,9 +284,10 @@ function runLayout(cy, layoutType) {
 		});
 	}
 	else if(layoutType == "MARL Local Stress"){
-		let maxDistance = Number(document.getElementById("maxDistance").value);
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
+			padding: layoutPadding,
+			idealEdgeLength: 80,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'localStress',
 			maxDistance: maxDistance,
@@ -269,6 +299,8 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL Global Stress"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
+			padding: layoutPadding,
+			idealEdgeLength: 80,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'globalStress',
 			stop: () => {
@@ -279,6 +311,8 @@ function runLayout(cy, layoutType) {
 	} else if(layoutType == "MARL Custom Reward"){
 		startTime = performance.now();
 		layout = cy.layout({name: "marll", randomize: randomize,
+			padding: layoutPadding,
+			idealEdgeLength: 50,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'customReward',
 			stop: () => {
@@ -303,6 +337,7 @@ function runLayout(cy, layoutType) {
 	} else {
 		startTime = performance.now();
 		cy.layout({name: "random", padding: 20}).run();
+		padding: layoutPadding,
 		endTime = performance.now();
 		evaluate(endTime - startTime);    
 	}
@@ -367,4 +402,4 @@ $( document ).keydown(function( event ) {
 	}
 });
 
-export {evaluate};
+export {evaluate, updateColors};

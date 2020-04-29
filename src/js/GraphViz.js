@@ -31,7 +31,7 @@ class GraphViz {
 					});
 				})
 
-				cy.fit();
+				cy.fit(null, 50);
 			})
 		.then(() => cy.emit('layoutstop'));
 	}

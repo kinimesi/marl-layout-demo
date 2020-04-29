@@ -9,10 +9,12 @@ import layoutUtilities from "cytoscape-layout-utilities";
 import $ from 'jquery';
 import panzoom from 'cytoscape-panzoom';
 import marll from 'cytoscape-marll';
+import * as d3 from 'd3';
 
-import {evaluate} from './menu';
+import {evaluate, updateColors} from './menu';
 import {bindHover} from './hover';
 
+window.d3=d3;
 cytoscape.use(graphml, $);
 cytoscape.use(fcose);
 cytoscape.use(coseBilkent);
@@ -55,18 +57,21 @@ cy = window.cy = cytoscape({
 		}, {
 			selector: 'node:selected',
 			style: {
-				'background-color': '#b71c1c'
+				//'background-color': '#b71c1c'
 			}
 		}, {
 			selector: 'edge:selected',
 			style: {
-				'line-color': '#b71c1c'
+				//'line-color': '#b71c1c'
 			}
 		}, {
 			selector: '.hover',
 			style: {
 				'background-color': '#b71c1c',
-					'line-color': '#b71c1c'
+				'border-opacity': 0.5,
+				'border-color': (ele) => ele.css('background-color'),
+				'border-width': 8,
+				'opacity': 0.8
 			}
 		}
 	],
@@ -100,18 +105,21 @@ if (document.getElementById('cyRight')) {
 			}, {
 				selector: 'node:selected',
 				style: {
-					'background-color': '#b71c1c'
+					//'background-color': '#b71c1c'
 				}
 			}, {
 				selector: 'edge:selected',
 				style: {
-					'line-color': '#b71c1c'
+					//'line-color': '#b71c1c'
 				}
 			}, {
 				selector: '.hover',
 				style: {
 					'background-color': '#b71c1c',
-					'line-color': '#b71c1c'
+					'border-opacity': 0.5,
+					'border-color': (ele) => ele.css('background-color'),
+					'border-width': 8,
+					'opacity': 0.8
 				}
 			}
 		],
@@ -139,6 +147,7 @@ let applyDataset = dataset => {
 	cy.add( dataset );
 	let startTime = performance.now();
 	cy.layout({name: 'grid',
+		padding: 50,
 		stop: () => evaluate(performance.now() - startTime)
 	}).run();
 
@@ -147,8 +156,10 @@ let applyDataset = dataset => {
 		otherCy.add(JSON.parse(JSON.stringify(dataset)));
 		startTime = performance.now();
 		otherCy.layout({name: 'grid',
+			padding: 50,
 			stop: () => evaluate(performance.now() - startTime)
 		}).run();
+		updateColors(cy, otherCy);
 	}
 }
 fetch(`samples/sample1.json`).then( toJson ).then(applyDataset);
@@ -158,27 +169,35 @@ if (otherCy ) {
 	bindHover(otherCy, cy);
 	cy.on('select', ele => {
 		let otherEle = otherCy.$('#' + ele.target.id());
+		ele.target.addClass('hover');
 		if (otherEle && !otherEle.selected()) {
 			otherEle.select();
+			otherEle.addClass('hover');
 		}
 	});
 	cy.on('unselect', ele => {
 		let otherEle = otherCy.$('#' + ele.target.id());
+		ele.target.removeClass('hover');
 		if (otherEle && otherEle.selected()) {
 			otherEle.unselect();
+			otherEle.removeClass('hover');
 		}
 	});
 
 	otherCy.on('select', ele => {
 		let otherEle = cy.$('#' + ele.target.id());
+		ele.target.addClass('hover');
 		if (otherEle && !otherEle.selected()) {
 			otherEle.select();
+			otherEle.addClass('hover');
 		}
 	});
 	otherCy.on('unselect', ele => {
 		let otherEle = cy.$('#' + ele.target.id());
+		ele.target.removeClass('hover');
 		if (otherEle && otherEle.selected()) {
 			otherEle.unselect();
+			otherEle.removeClass('hover');
 		}
 	});
 }

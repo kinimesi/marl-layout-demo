@@ -24,9 +24,6 @@
 					<li class="nav-item">
 						<a class="nav-link font-weight-bold active" title='Multi-agent reinforcement learning layout' href="#">MARLL</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./singleView.html">Single View</a>
-					</li>
 				</ul>
 
 				<div class="btn-group mr-3" role="group" aria-label="First group">
@@ -64,12 +61,12 @@
 							<label class="input-group-text" for="samples">Graph:</label>
 						</div>
 						<select id="samples" class="custom-select">
-							<option value='sample1.json'>sample1</option>
-							<option value='bcspwr01.graphml'>bcspwr01</option>
-							<option value='karate.graphml'>karate</option>
+							<option value='sample1.json'>Synthetic</option>
+							<option value='bcspwr01.graphml'>Power plant_a</option>
+							<option value='karate.graphml'>Karate</option>
 							<option value='GD99_c.graphml'>GD99_c</option>
-							<option value='bcspwr03.graphml'>bcspwr03</option>
-							<option value='lesmiserables.graphml'>lesmiserables</option>
+							<option value='bcspwr03.graphml'>Power plant_b</option>
+							<option value='lesmiserables.graphml'>Les Miserables</option>
 						</select>
 					</div>
 				</div>
@@ -82,12 +79,12 @@
 				<h5 class="table-header ml-2 mt-2">Quality Metrics</h5>
 				<table class="table table-sm table-striped text-dark">
 					<tr>
-						<th style="width: 60%"> <span class="ml-1">Metric</span> </th>
+						<th style="width: 40%"> <span class="ml-1">Metric</span> </th>
 						<th> <span id="" class="text-dark">Left</span> </th>
 						<th> <span id="" class="text-dark">Right</span> </th>
 					</tr>
 					<tr>
-						<td style="width: 60%"> <span class="ml-1">Nodes: </span> </td>
+						<td style="width: 40%"> <span class="ml-1">Nodes: </span> </td>
 						<td> <span id="numOfNodes" class="text-dark"></span> </td>
 						<td> <span id="otherNumOfNodes" class="text-dark"></span> </td>
 					</tr>
@@ -128,31 +125,29 @@
 				<h5 class="table-header ml-2 mt-2">Layout Options</h5>
 				<table class="table table-sm table-striped text-dark">
 					<tr>
-						<th style="width: 60%"> <span class="ml-1">Option</span> </th>
-						<th> <span id="" class="text-dark">Value</span> </th>
+						<th style="width: 40%"> <span class="ml-1">Option</span> </th>
+						<th> <span id="" class="text-dark">Left</span> </th>
+						<th> <span id="" class="text-dark">Right</span> </th>
 					</tr>
-					<tr><td style="width: 60%" class="align-middle"><span class="ml-1">Initialization </span></td>
+					<tr><td style="width: 40%" class='align-middle'><span class="ml-1">Initialization </span></td>
 						<td>
-							<select id="randomize" class="custom-control custom-select">
+							<select id="randomize" class="custom-control custom-select smallText">
+								<option selected>Grid</option>
+								<option>Preset</option>
+								<option>Random</option>
+							</select>
+						</td>
+						<td>
+							<select id="randomizeOther" class="custom-control custom-select smallText">
 								<option selected>Grid</option>
 								<option>Preset</option>
 								<option>Random</option>
 							</select>
 						</td>
 					</tr>
-					<tr>
-						<td class="align-middle">
-							<span class="ml-1">Iterations</span>
-						</td>
-						<td>
-							<div class="col-xs-2">
-								<input class='form-control' type="number" id="numIter" value="1000">
-							</div>
-						</td>
-					</tr>
 
 					<tr>
-						<td class="align-middle">
+						<td class="align-middle ml-1">
 							<span class="ml-1">Node Repulsion</span>
 						</td>
 						<td>
@@ -160,10 +155,15 @@
 								<input class='form-control' type="number" id="repulsionConstant" value="10000">
 							</div>
 						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="repulsionConstantOther" value="10000">
+							</div>
+						</td>
 					</tr>
 
 					<tr>
-						<td class="align-middle">
+						<td class="align-middle ml-1">
 							<span class="ml-1">Edge Elasticity</span>
 						</td>
 						<td>
@@ -171,14 +171,40 @@
 								<input class='form-control' type="number" id="edgeElasticity" value="0.2">
 							</div>
 						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="edgeElasticityOther" value="0.2">
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">MARL Iterations</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="numIter" value="1000">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="numIterOther" value="1000">
+							</div>
+						</td>
 					</tr>
 					<tr>
-						<td class="align-middle">
+						<td class="align-middle ml-1">
 							<span class="ml-1">Max Distance:</span>
 						</td>
 						<td>
 							<div class="col-xs-2">
 								<input class='form-control' type="number" id="maxDistance" value="0">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="maxDistanceOther" value="0">
 							</div>
 						</td>
 					</tr>
@@ -194,13 +220,13 @@
 						<label class="input-group-text" for="layout">Layout:</label>
 					</div>
 					<select id="layout" class="custom-select">
-						<option value="FD">FD Dogrusoz et al.</option>
-						<option value="FR">FR Fruchterman and Reingold</option>
-						<option value="SM">SM Gansner et al.</option>
-						<option value="MARL FD">MARL FD</option>
-						<option value="MARL FR">MARL FR</option>
-						<option value="MARL Local Stress">MARL Local Stress</option>
-						<option value="MARL Global Stress">MARL Global Stress</option>
+						<option value="FD">Force Directed Dogrusoz et al.</option>
+						<option value="FR">Force Directed Fruchterman and Reingold</option>
+						<option value="SM">Stress Majorization Gansner et al.</option>
+						<option value="MARL FD">MARL Dogrusoz et al.</option>
+						<option value="MARL FR">MARL Fruchterman and Reingold</option>
+						<option value="MARL Local Stress">MARL Local Stress Majorization</option>
+						<option value="MARL Global Stress">MARL Global Stress Majorization</option>
 						<option value="MARL Custom Reward">MARL Custom Reward</option>
 						<option value="MARL Incremental">MARL Incremental</option>
 						<option value="MARL Hybrid">MARL Hybrid</option>
@@ -220,13 +246,13 @@
 						<label class="input-group-text" for="otherLayout">Layout:</label>
 					</div>
 					<select id="otherLayout" class="custom-select">
-						<option value="FD">FD Dogrusoz et al.</option>
-						<option value="FR">FR Fruchterman and Reingold</option>
-						<option value="SM">SM Gansner et al.</option>
-						<option value="MARL FD">MARL FD</option>
-						<option value="MARL FR">MARL FR</option>
-						<option value="MARL Local Stress">MARL Local Stress</option>
-						<option value="MARL Global Stress">MARL Global Stress</option>
+						<option value="FD">Force Directed Dogrusoz et al.</option>
+						<option value="FR">Force Directed Fruchterman and Reingold</option>
+						<option value="SM">Stress Majorization Gansner et al.</option>
+						<option value="MARL FD">MARL Dogrusoz et al.</option>
+						<option value="MARL FR">MARL Fruchterman and Reingold</option>
+						<option value="MARL Local Stress">MARL Local Stress Majorization</option>
+						<option value="MARL Global Stress">MARL Global Stress Majorization</option>
 						<option value="MARL Custom Reward">MARL Custom Reward</option>
 						<option value="MARL Incremental">MARL Incremental</option>
 						<option value="MARL Hybrid">MARL Hybrid</option>

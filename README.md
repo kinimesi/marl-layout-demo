@@ -1,15 +1,14 @@
-# layland
-Cytoscape.js-based graph layout and analysis tool. Enjoy [here](https://ivis-at-bilkent.github.io/layland/)!
+# MARLL
+A sample application for the [multi-agent reinforcement learning layou extension](https://github.com/kinimesi/cytoscape.js-marll)
 
-Currently supports [cose-bilkent](https://github.com/cytoscape/cytoscape.js-cose-bilkent), [fcose](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose) and [cola](https://github.com/cytoscape/cytoscape.js-cola) layouts. 
 
 #### Running a Local Instance
 In order to deploy and run a local instance of the tool, please follow the steps below:
 
 - Installation
 ```
-git clone https://github.com/iVis-at-Bilkent/layland.git
-cd layland
+git clone https://github.com/kinimesi/mral-layout-demo.git
+cd mral-layout-demo
 npm install 
 ```
 

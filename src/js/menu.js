@@ -9,12 +9,16 @@ window.getQualityScore = getQualityScore;
 var graphViz = new GraphViz();
 
 function updateColors(cy, otherCy) {
+	console.log("update colors")
+	var color_dict = d3.scaleOrdinal(d3.schemeCategory10);
 	var l = Math.max(cy.nodes().length, otherCy.nodes().length);
 	cy.nodes().forEach((n,i) => {
-		n.css('background-color', d3.interpolateTurbo(i/l));
+		// n.css('background-color', d3.interpolateTurbo(i/l));
+		n.css('background-color', color_dict(i)).css('opacity',0.85);
 		let otherNode = otherCy.$('#' + n.id());
 		if (otherNode) {
-			otherNode.css('background-color', d3.interpolateTurbo(i/l));
+			// otherNode.css('background-color', d3.interpolateTurbo(i/l));
+			otherNode.css('background-color', color_dict(i)).css('opacity',0.85);
 		}
 	})
 }
@@ -26,6 +30,7 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 	if (inputFile) {
 		var fileExtension = inputFile.name.split('.').pop();
 		var r = new FileReader();
+		console.log("r",r)
 		r.onload = function(e) {
 			cy.remove(cy.elements());
 			if (otherCy) {
@@ -56,6 +61,8 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 			}
 		};
 		r.addEventListener('loadend', function(){
+			updateColors(cy,otherCy);
+			console.log(fileObject)
 			if(!fileObject)
 				return;
 			//document.getElementById("fileName").innerHTML = inputFile.name;
@@ -66,7 +73,7 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 				otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
 			}
 			evaluate(0);
-			updateColors(cy,otherCy);
+			// updateColors(cy,otherCy);
 		});
 		r.readAsText(inputFile);
 	} else { 
@@ -184,6 +191,7 @@ $("body").on("click", "#runLayout", function(){
 	  cy.layout({'name': 'grid', padding: layoutPadding}).run();
 	}
 	layout = runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
+	console.log(layout)
 });
 
 $("body").on("click", "#runOtherLayout", function(){
@@ -341,6 +349,15 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 		endTime = performance.now();
 		evaluate(endTime - startTime);    
 	}
+
+	// var color_dict = d3.scaleOrdinal(d3.schemeCategory10);
+	// var i=0;
+
+	// cy.elements('node').forEach(node => {
+	// 	cy.$('#' + node['_private'].data.id).style('background-color',color_dict(i));
+	// 	i+=1;
+
+	// })
 
 	if (layout) {
 		layout.run();

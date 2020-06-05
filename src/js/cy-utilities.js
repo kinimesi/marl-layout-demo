@@ -35,6 +35,7 @@ if (document.getElementById('cyLeft') && document.getElementById('cyRight')) {
 cy = window.cy = cytoscape({
 	container: document.getElementById(cyId),
 	ready: function(){
+		console.log($(this.container()))
 		this.layoutUtilities({
 			componentSpacing: 30,
 			desiredAspectRatio: $(this.container()).width()

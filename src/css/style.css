@@ -20,7 +20,8 @@ body {
 
 #graphProperties {
   padding: 10px 10px;
-  border-bottom: 1px solid #C5CBD0;
+  /* padding-top: 10vh; */
+  /* border-bottom: 1px solid #C5CBD0; */
 }
 
 #layoutOptions {
@@ -31,6 +32,49 @@ body {
 table {
   /* background-color: #fff; */
 
+}
+
+.block-container {
+  background-color:#FFF;
+  margin-top: 10px;
+  border: 1px solid #C5CBD0;
+  border-radius: 3px;
+  width:100%;
+  /* -webkit-box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
+  /* -moz-box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
+  /* box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
+}
+
+.block_title {
+  /* font-weight: bold; */
+  border-bottom: 1px solid #D3DBE2;
+  padding: 5px 10px;
+  background: transparent url("icons/fold.svg") 98% center no-repeat;
+  background-size: 15px;
+  cursor: pointer;
+}
+.block_title.collapsed {
+  border-bottom: none;
+  background-image: url("icons/unfold.svg");
+}
+
+.block_body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.block_body-inner {
+  padding:5px 15px;
+  overflow: scroll;
+}
+
+.input-container {
+  padding: 5px 50px;
+}
+
+.input-label{
+  padding-top: 5px;
 }
 
 h5{
@@ -135,6 +179,7 @@ span {
 .cy {
   z-index: 0;
   padding-left:30px;
+  overflow: hidden;
   /* border-left: 2px solid #0d47a1; */
 }
 

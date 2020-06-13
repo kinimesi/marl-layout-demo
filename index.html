@@ -170,7 +170,7 @@
 				</table>
 			</div>
 			<!-- <hr style="margin-bottom: 0"> -->
-			<div id="layoutOptions">
+			<!-- <div id="layoutOptions">
 				<h5 class="table-header ml-2 mt-2">Layout Options</h5>
 				<table class="table table-sm table-striped text-dark">
 					<tr>
@@ -258,7 +258,7 @@
 						</td>
 					</tr>
 				</table>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-5 graph-container">
 			<!-- <div class="col-xs-3 mr-2 layoutDropdownLeft"> -->
@@ -282,6 +282,12 @@
 					<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
 					<button id="stopLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
 				</div>
+				<div id="input-group-parameters" class="block-container">
+					<div class="block_title collapsed">Layout Parameters</div>
+					<div class="block_body">
+						<div id="layout-parameters" class="block_body-inner"></div>
+					</div>
+				</div>
 			</div>
 			<div id="cyLeft" class='cy'></div>
 		</div>
@@ -294,7 +300,7 @@
 					<option value="FD">Force Directed Dogrusoz et al.</option>
 					<option value="FR">Force Directed Fruchterman and Reingold</option>
 					<option value="SM">Stress Majorization Gansner et al.</option>
-					<option value="MARL FD">MARL Dogrusoz et al.</option>
+					<option value="MARL FD" selected>MARL Dogrusoz et al.</option>
 					<option value="MARL FR">MARL Fruchterman and Reingold</option>
 					<option value="MARL Local Stress">MARL Local Stress Majorization</option>
 					<option value="MARL Global Stress">MARL Global Stress Majorization</option>
@@ -305,6 +311,12 @@
 				<div class="input-group-append">
 					<button id="runOtherLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
 					<button id="stopOtherLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
+				</div>
+				<div id="input-other-group-parameters" class="block-container">
+					<div class="block_title collapsed">Layout Parameters</div>
+					<div class="block_body">
+						<div id="other-layout-parameters"  class="block_body-inner"></div>
+					</div>
 				</div>
 			</div>
 			<div id="cyRight" class='cy'></div>

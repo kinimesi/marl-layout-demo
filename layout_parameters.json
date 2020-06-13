@@ -1,0 +1,333 @@
+
+{"algorithms":{
+    "FD": {
+        "alg_name": "Force directed dogrusoz",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "Node Repulsion",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 20000,
+                "range_value": 10000,
+                "range_step": 1
+            },
+            {
+                "param_name": "Edge Elasticity",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0.2,
+                "range_step": 0.1
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "FR": {
+        "alg_name": "Force directed Fruchterman",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "SM": {
+        "alg_name": "Stress majorization",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Stress Rate",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "MARL FD": {
+        "alg_name": "MARL Dogrusoz",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "Node Repulsion",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 20000,
+                "range_value": 10000,
+                "range_step": 1
+            },
+            {
+                "param_name": "Edge Elasticity",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0.2,
+                "range_step": 0.1
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "MARL FR": {
+        "alg_name": "MARL Fruchterman",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "MARL Local Stress": {
+        "alg_name": "MARL Local Stress",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Max Distance",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 100,
+                "range_value": 0,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Stress Rate",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0,
+                "range_step": 0.1
+            }
+
+        ]
+    },
+    "MARL Global Stress": {
+        "alg_name": "MARL Global Stress",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Stress Rate",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "MARL Custom Reward": {
+        "alg_name": "MARL Custom",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            }
+        ]
+    },
+    "MARL Hybrid": {
+        "alg_name": "MARL Hybrid",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Max Distance",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 100,
+                "range_value": 0,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Displacement Rate",
+                "type": "range",
+                "range_min":0,
+                "range_max":1,
+                "range_value": 0.5,
+                "range_step": 0.1
+            },
+            {
+                "param_name": "Stress Rate",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0,
+                "range_step": 0.1
+            }
+
+        ]
+    },
+    "MARL Incremental": {
+        "alg_name": "MARL Incremental",
+        "parameters": [
+            {
+                "param_name": "Initialization",
+                "type": "dropdown",
+                "options": ["Grid", "Preset", "Random"]
+            },
+            {
+                "param_name": "MARL Iterations",
+                "type": "range",
+                "range_min": 1,
+                "range_max": 2000,
+                "range_value": 1000,
+                "range_step": 1
+
+            },
+            {
+                "param_name": "Stress Rate",
+                "type": "range",
+                "range_min": 0,
+                "range_max": 1,
+                "range_value": 0,
+                "range_step": 0.1
+            }
+        ]        
+    }
+}}

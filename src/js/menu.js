@@ -219,7 +219,6 @@ d3.json("layout_parameters.json").then(data=>{
 			}
 		}
 	}
-
 	
 	algs_dropdown_other.onchange = function(){
 		alg_other = algs[algs_dropdown_other.options[algs_dropdown_other.selectedIndex].value];

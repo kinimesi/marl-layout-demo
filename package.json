@@ -24,7 +24,8 @@
     "express": "^4.17.0",
     "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
-    "popper.js": "1.15.0"
+    "popper.js": "1.15.0",
+    "viz.js": "^2.1.2"
   },
   "devDependencies": {
     "webpack": "^4.32.0",

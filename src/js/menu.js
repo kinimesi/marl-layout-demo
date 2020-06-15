@@ -9,12 +9,16 @@ window.getQualityScore = getQualityScore;
 var graphViz = new GraphViz();
 
 function updateColors(cy, otherCy) {
+	console.log("update colors")
+	var color_dict = d3.scaleOrdinal(d3.schemeCategory10);
 	var l = Math.max(cy.nodes().length, otherCy.nodes().length);
 	cy.nodes().forEach((n,i) => {
-		n.css('background-color', d3.interpolateTurbo(i/l));
+		// n.css('background-color', d3.interpolateTurbo(i/l));
+		n.css('background-color', color_dict(i)).css('opacity',0.85);
 		let otherNode = otherCy.$('#' + n.id());
 		if (otherNode) {
-			otherNode.css('background-color', d3.interpolateTurbo(i/l));
+			// otherNode.css('background-color', d3.interpolateTurbo(i/l));
+			otherNode.css('background-color', color_dict(i)).css('opacity',0.85);
 		}
 	})
 }
@@ -26,6 +30,7 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 	if (inputFile) {
 		var fileExtension = inputFile.name.split('.').pop();
 		var r = new FileReader();
+		console.log("r",r)
 		r.onload = function(e) {
 			cy.remove(cy.elements());
 			if (otherCy) {
@@ -56,6 +61,8 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 			}
 		};
 		r.addEventListener('loadend', function(){
+			updateColors(cy,otherCy);
+			console.log(fileObject)
 			if(!fileObject)
 				return;
 			//document.getElementById("fileName").innerHTML = inputFile.name;
@@ -66,7 +73,7 @@ $("body").on("change", "#inputFile", function(e, fileObject) {
 				otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
 			}
 			evaluate(0);
-			updateColors(cy,otherCy);
+			// updateColors(cy,otherCy);
 		});
 		r.readAsText(inputFile);
 	} else { 
@@ -167,36 +174,170 @@ function evaluate(layoutTime){
 	}
 }
 
+
+//  Parameters control
+let coll  = document.getElementsByClassName("block_title");
+for(let i=0; i<coll.length; i++){
+	coll[i].addEventListener("click", function(){
+		this.classList.toggle("collapsed")
+		let block_body = this.nextElementSibling;
+		if (block_body.style.maxHeight){
+			block_body.style.maxHeight = null;
+		} else {
+
+			// block_body.style.maxHeight = block_body.scrollHeight + "px";
+			block_body.style.maxHeight = "1000px";
+		} 
+	})
+}
+
+d3.json("layout_parameters.json").then(data=>{
+	// Layout correspondence
+	let lc;
+	d3.json("layout_correspondence.json").then(lc_data=>{
+		lc = lc_data;
+	})
+	console.log("params", data)
+	let algs = data.algorithms;
+	let algs_dropdown = document.getElementById("layout");
+	let alg = algs[algs_dropdown.options[algs_dropdown.selectedIndex].value];
+	add_parameters(alg, "layout");
+	let algs_dropdown_other = document.getElementById("otherLayout");
+	let alg_other = algs[algs_dropdown_other.options[algs_dropdown_other.selectedIndex].value];
+	add_parameters(alg_other, "other-layout");
+
+	algs_dropdown.onchange = function(){
+		alg = algs[algs_dropdown.options[algs_dropdown.selectedIndex].value];
+		add_parameters(alg, "layout");
+
+		if(lc){
+			if(lc[algs_dropdown.options[algs_dropdown.selectedIndex].value]){
+				console.log(algs_dropdown.options[algs_dropdown.selectedIndex].value)
+				algs_dropdown_other.value = lc[algs_dropdown.options[algs_dropdown.selectedIndex].value];
+				alg_other = algs[lc[algs_dropdown.options[algs_dropdown.selectedIndex].value]];
+				add_parameters(alg_other, "other-layout");
+			}
+		}
+	}
+	
+	algs_dropdown_other.onchange = function(){
+		alg_other = algs[algs_dropdown_other.options[algs_dropdown_other.selectedIndex].value];
+		add_parameters(alg_other, "other-layout");
+	}
+	
+})
+
+function add_parameters(alg, layout){
+	remove_all_parameters(layout)
+	alg.parameters.forEach(param=>{
+		if(param.type === "range"){
+			add_parameter_range(param, layout);
+		} else if(param.type === "dropdown") {
+			add_parameter_dropdown(param, layout);
+		}
+	})
+}
+
+function remove_all_parameters(layout){
+	d3.select("#"+layout+"-parameters").selectAll(".input-container").remove();
+}
+
+function add_parameter_range(param, layout) {
+	let param_id = param.param_name.replace(" ", "")+"-"+layout;
+	$("#"+layout+"-parameters").append('<div class="row" id="param-'+param_id+'"></div>');
+	d3.select("#param-"+param_id).classed("input-container", true);
+	d3.select("#param-"+param_id).append('div').classed("col-5", true).classed("input-label", true).html(param.param_name);
+	d3.select("#param-"+param_id).append('div').classed("col-6", true).attr("id", param_id+"-input-container");
+	$("#"+param_id+"-input-container").append('<input class="form-control" type="number" id="input-'+param_id+'" value='+param.range_value+'>');	
+}
+
+function add_parameter_dropdown(param, layout) {
+	let param_id = param.param_name.replace(" ", "")+"-"+layout;
+	$("#"+layout+"-parameters").append('<div class="row" id="param-'+param_id+'"></div>');
+	d3.select("#param-"+param_id).classed("input-container", true);
+	d3.select("#param-"+param_id).append('div').classed("col-5", true).classed("input-label", true).html(param.param_name);
+	d3.select("#param-"+param_id).append('div').classed("col-6", true).attr("id", param_id+"-input-container");
+	$("#"+param_id+"-input-container").append('<select id="input-'+param_id+'" class="custom-control custom-select">');
+	param.options.forEach(option=>{
+		d3.select("#input-"+param_id).append('option').html(option);
+	})
+}
+
 var layout;
 var otherLayout;
 $("body").on("click", "#runLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("layout").value;
-	let randomize = document.getElementById('randomize').value == 'Random';
-	let numIter = document.getElementById("numIter").value;
-	let repulsionConstant = Number(document.getElementById("repulsionConstant").value);
-	let edgeElasticity = Number(document.getElementById("edgeElasticity").value);
-	let maxDistance = Number(document.getElementById("maxDistance").value);
+	// let randomize = document.getElementById('randomize').value == 'Random';
+	let randomize;
+	if(document.getElementById('input-Initialization-layout')){
+		randomize = document.getElementById('input-Initialization-layout').value == 'Random';
+	}
+	// let numIter = document.getElementById("numIter").value;
+	let numIter;
+	if(document.getElementById("input-MARLIterations-layout")){
+		numIter = document.getElementById("input-MARLIterations-layout").value;
+	}
+	// let repulsionConstant = Number(document.getElementById("repulsionConstant").value);
+	let repulsionConstant;
+	if(document.getElementById("input-NodeRepulsion-layout")){
+		repulsionConstant = Number(document.getElementById("input-NodeRepulsion-layout").value);
+	}
+	// let edgeElasticity = Number(document.getElementById("edgeElasticity").value);
+	let edgeElasticity;
+	if(document.getElementById("input-EdgeElasticity-layout")){
+		edgeElasticity = Number(document.getElementById("input-EdgeElasticity-layout").value);
+	}
+	// let maxDistance = Number(document.getElementById("maxDistance").value);
+	let maxDistance;
+	if(document.getElementById("input-MaxDistance-layout")){
+		maxDistance = Number(document.getElementById("input-MaxDistance-layout").value);
+	}
 	console.log( edgeElasticity) 
 	console.log( repulsionConstant) 
-	if (document.getElementById('randomize').value == 'Grid') {
-	  cy.layout({'name': 'grid', padding: layoutPadding}).run();
+	if (document.getElementById('input-Initialization-layout')) {
+		if(document.getElementById('input-Initialization-layout').value == 'Grid'){
+			cy.layout({'name': 'grid', padding: layoutPadding}).run();
+		}
 	}
 	layout = runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
+	console.log(layout)
 });
 
 $("body").on("click", "#runOtherLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("otherLayout").value;
-	let randomize = document.getElementById('randomizeOther').value == 'Random';
-	let numIter = document.getElementById("numIterOther").value;
-	let repulsionConstant = Number(document.getElementById("repulsionConstantOther").value);
-	let edgeElasticity = Number(document.getElementById("edgeElasticityOther").value);
-	let maxDistance = Number(document.getElementById("maxDistanceOther").value);
-	if (document.getElementById('randomizeOther').value == 'Grid') {
-	  otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
+	// let randomize = document.getElementById('randomizeOther').value == 'Random';
+	let randomize;
+	if(document.getElementById('input-Initialization-other-layout')){
+		randomize = document.getElementById('input-Initialization-other-layout').value == 'Random';
+	}
+	// let numIter = document.getElementById("numIterOther").value;
+	let numIter;
+	if(document.getElementById("input-MARLIterations-other-layout")){
+		numIter = document.getElementById("input-MARLIterations-other-layout").value;
+	}
+	// let repulsionConstant = Number(document.getElementById("repulsionConstantOther").value);
+	let repulsionConstant;
+	if(document.getElementById("input-NodeRepulsion-other-layout")){
+		repulsionConstant = Number(document.getElementById("input-NodeRepulsion-other-layout").value);
+	}
+	// let edgeElasticity = Number(document.getElementById("edgeElasticityOther").value);
+	let edgeElasticity;
+	if(document.getElementById("input-EdgeElasticity-other-layout")){
+		edgeElasticity = Number(document.getElementById("input-EdgeElasticity-other-layout").value);
+	}
+	// let maxDistance = Number(document.getElementById("maxDistanceOther").value);
+	let maxDistance;
+	if(document.getElementById("input-MaxDistance-other-layout")){
+		maxDistance = Number(document.getElementById("input-MaxDistance-other-layout").value);
+	}
+	if (document.getElementById('input-Initialization-other-layout')) {
+		if(document.getElementById('input-Initialization-other-layout').value == 'Grid'){
+			otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
+		}
 	}
 	otherLayout = runLayout(otherCy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
 });
@@ -341,6 +482,15 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 		endTime = performance.now();
 		evaluate(endTime - startTime);    
 	}
+
+	// var color_dict = d3.scaleOrdinal(d3.schemeCategory10);
+	// var i=0;
+
+	// cy.elements('node').forEach(node => {
+	// 	cy.$('#' + node['_private'].data.id).style('background-color',color_dict(i));
+	// 	i+=1;
+
+	// })
 
 	if (layout) {
 		layout.run();

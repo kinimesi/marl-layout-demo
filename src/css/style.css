@@ -7,6 +7,7 @@ body {
 #inspector {
   background-color: rgb(249,249,249);
   padding-right: 0px;
+  padding-left: 0px;
   /* position: absolute;
   width: 18.5%; 
   height: 92%;
@@ -36,13 +37,19 @@ table {
 
 .block-container {
   background-color:#FFF;
-  margin-top: 10px;
+  margin-top: 40px;
   border: 1px solid #C5CBD0;
   border-radius: 3px;
-  width:100%;
+  width:90%;
+  position: absolute;
+  z-index: 1000;
   /* -webkit-box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
   /* -moz-box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
   /* box-shadow: 1px 1px 2px 1px rgba(221, 221, 221, 0.7); */
+}
+
+.input-group-append{
+  height: 30px;
 }
 
 .block_title {
@@ -150,12 +157,13 @@ span {
 }
 
 #cyLeft {
+  z-index:-999;  
   position: absolute;
   width: 90%; 
   height: 90%;
   margin: 0.0% 0.0% 0.0% 3%;
   overflow: hidden;
-  z-index: 20;
+  /* z-index: 20; */
 }
 
 #spinnerLeft {
@@ -171,6 +179,7 @@ span {
   width: 90%;
   height: 90%;
   margin: 0.0% 0.0% 0.0% 3%;
+  z-index: -999;
 }
 
 .layout-input {
@@ -178,6 +187,7 @@ span {
   background-color: rgb(249,249,249);
   padding: 10px 30px;
   border-bottom: 1px dotted #C5CBD0;
+  height: 95px;
   z-index: 10;
 }
 
@@ -187,7 +197,7 @@ span {
 }
 
 .cy {
-  z-index: 0;
+  /* z-index: 0; */
   padding-left:30px;
   overflow: hidden;
   /* border-left: 2px solid #0d47a1; */

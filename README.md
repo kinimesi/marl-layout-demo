@@ -6,7 +6,7 @@ In order to deploy and run a local instance of the tool, please follow the steps
 
 - Installation
 ```
-git clone https://github.com/kinimesi/mral-layout-demo.git
+git clone https://github.com/kinimesi/marl-layout-demo.git
 cd mral-layout-demo
 npm install 
 ```

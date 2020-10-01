@@ -13,12 +13,12 @@ function updateColors(cy, otherCy) {
 	var color_dict = d3.scaleOrdinal(d3.schemeCategory10);
 	var l = Math.max(cy.nodes().length, otherCy.nodes().length);
 	cy.nodes().forEach((n,i) => {
-		// n.css('background-color', d3.interpolateTurbo(i/l));
-		n.css('background-color', color_dict(i)).css('opacity',0.85);
+		n.css('background-color', d3.interpolateTurbo(i/l));
+		//n.css('background-color', color_dict(i)).css('opacity',0.85);
 		let otherNode = otherCy.$('#' + n.id());
 		if (otherNode) {
-			// otherNode.css('background-color', d3.interpolateTurbo(i/l));
-			otherNode.css('background-color', color_dict(i)).css('opacity',0.85);
+			otherNode.css('background-color', d3.interpolateTurbo(i/l));
+			//otherNode.css('background-color', color_dict(i)).css('opacity',0.85);
 		}
 	})
 }
@@ -108,7 +108,8 @@ document.getElementById("saveFile").addEventListener("click", function(){
 
 document.getElementById("saveJPG").addEventListener("click", function(){
   let jpgContent = cy.jpg({output: "blob", maxHeight: 600, maxWidth: 600, quality: 1, full: true});
-  saveAs(jpgContent, "graph.jpg");
+  let name = document.getElementById('samples').value + '_' + document.getElementById('layout').value + '.jpg';
+  saveAs(jpgContent, name);
 });
 
 function evaluate(layoutTime){
@@ -174,6 +175,17 @@ function evaluate(layoutTime){
 	}
 }
 
+$('#nodeSize').on('change', () => {
+	let nodeSize = Number(document.getElementById("nodeSize").value);
+	cy.nodes().css('width', nodeSize);
+	cy.nodes().css('height', nodeSize);
+});
+
+$('#nodeSizeOther').on('change', () => {
+	let nodeSize = Number(document.getElementById("nodeSizeOther").value);
+	otherCy.nodes().css('width', nodeSize);
+	otherCy.nodes().css('height', nodeSize);
+});
 
 //  Parameters control
 let coll  = document.getElementsByClassName("block_title");
@@ -443,7 +455,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 			padding: layoutPadding,
 			idealEdgeLength: 80,
 			maxIterations: numIter, animate: true,
-			rewardFunction: 'globalStress',
+			rewardFunction: 'localStress',
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);

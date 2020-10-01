@@ -14,61 +14,59 @@
 
 	</head>
 	<body>
-	<div class="container-fluid">
-		<div id="header-group" class="row">
-			<div class="col-1" style="padding-left:30px;">
-				<a class="nav-link main-title" title='Multi-agent reinforcement learning layout' href="#">MARLL</a>
-			</div>
-			<div class="col-2" style="padding-top:8px;padding-left:70px;">
-				<input id="inputFile" type='file' style="display: none" />
-				<div class="btn-group mr-3" role="group" aria-label="First group">
-					<button id="openFile" type="button" class="btn btn-light mybutton  fa fa-folder-open" data-toggle="tooltip" title="Load json, graphml or tsv file"></button>
-					<button id="saveFile" type="button" class="btn btn-light mybutton fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
-					<button id="saveJPG" type="button" class="btn btn-light mybutton fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
-					<button type="button" class="btn btn-light mybutton fa fa-info-circle" data-toggle="modal" data-target="#exampleModal" title="Info" ></button>
-				</div>
-				
-			</div>
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title text-secondary" id="exampleModalLabel">Info</h5>
-						</div>
-						<div class="modal-body">
-							<table class="table table-sm table-striped text-dark">
-								<tr>
-									<th scope="col" class="text-secondary"  style="width: 25%">Key</th>
-									<th scope="col" class="text-secondary"  style="width: 75%">Functionality</th>
-								</tr>
-								<tr><td>"n"</td><td><span class="text-primary">add new node</span></td></tr>
-								<tr><td>"e"</td><td><span class="text-primary">add edge between two selected nodes</span></td></tr>
-								<tr><td>"Delete"</td><td><span class="text-primary">delete element</span></td></tr>        
-								<tr><td>"l"</td><td><span class="text-primary">run layout</span></td></tr>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div> 
-			<div class="col-2" style="padding-top:8px;padding-left:5px;">
-				<div class="input-group">
-					<div class="input-group-prepend">
-						<label class="input-group-text" for="samples">Graph:</label>
-					</div>
-					<select id="samples" class="custom-select">
-						<option value='sample1.json'>Synthetic</option>
-						<option value='bcspwr01.graphml'>Power plant_a</option>
-						<option value='karate.graphml'>Karate</option>
-						<option value='GD99_c.graphml'>GD99_c</option>
-						<option value='bcspwr03.graphml'>Power plant_b</option>
-						<option value='lesmiserables.graphml'>Les Miserables</option>
-					</select>
-				</div>
-			</div>
-	
+	<div id="header-group" class="row">
+		<div class="col-1" style="padding-left:30px;">
+			<a class="nav-link main-title" title='Multi-agent reinforcement learning layout' href="#">MARLL</a>
 		</div>
+		<div class="col-2" style="padding-top:8px;padding-left:70px;">
+			<input id="inputFile" type='file' style="display: none" />
+			<div class="btn-group mr-3" role="group" aria-label="First group">
+				<button id="openFile" type="button" class="btn btn-light mybutton  fa fa-folder-open" data-toggle="tooltip" title="Load json, graphml or tsv file"></button>
+				<button id="saveFile" type="button" class="btn btn-light mybutton fa fa-save" data-toggle="tooltip" title="Save as graphml"></button>
+				<button id="saveJPG" type="button" class="btn btn-light mybutton fa fa-image" data-toggle="tooltip" title="Save as JPG"></button>
+				<button type="button" class="btn btn-light mybutton fa fa-info-circle" data-toggle="modal" data-target="#exampleModal" title="Info" ></button>
+			</div>
+			
+		</div>
+		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title text-secondary" id="exampleModalLabel">Info</h5>
+					</div>
+					<div class="modal-body">
+						<table class="table table-sm table-striped text-dark">
+							<tr>
+								<th scope="col" class="text-secondary"  style="width: 25%">Key</th>
+								<th scope="col" class="text-secondary"  style="width: 75%">Functionality</th>
+							</tr>
+							<tr><td>"n"</td><td><span class="text-primary">add new node</span></td></tr>
+							<tr><td>"e"</td><td><span class="text-primary">add edge between two selected nodes</span></td></tr>
+							<tr><td>"Delete"</td><td><span class="text-primary">delete element</span></td></tr>        
+							<tr><td>"l"</td><td><span class="text-primary">run layout</span></td></tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<div class="col-2" style="padding-top:8px;padding-left:5px;">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="samples">Graph:</label>
+				</div>
+				<select id="samples" class="custom-select">
+					<option value='sample1.json'>Synthetic</option>
+					<option value='bcspwr01.graphml'>Power plant_a</option>
+					<option value='karate.graphml'>Karate</option>
+					<option value='GD99_c.graphml'>GD99_c</option>
+					<option value='bcspwr03.graphml'>Power plant_b</option>
+					<option value='lesmiserables.graphml'>Les Miserables</option>
+					<option value='rajat05.graphml'>Rajat</option>
+				</select>
+			</div>
+		</div>
+
 	</div>
-	
 		<!-- <input id="inputFile" type='file' style="display: none" /> -->
 		<!-- <nav class="navbar navbar-expand-lg navbar-dark mynavbar">
 
@@ -125,217 +123,238 @@
 				</div>
 		</nav> -->
 
-	<div class="container-fluid">
-		<div class="row" style="border-bottom: 1px solid #C5CBD0; margin-bottom: 0px;">
-			<div id="inspector" class="col-2">
-				<div id="graphProperties">
-					<h5 class="table-header ml-2 mt-2">Quality Metrics</h5>
-					<table class="table table-sm table-striped text-dark">
-						<tr>
-							<th style="width: 45%"> <span class="ml-1">Metric</span> </th>
-							<th> <span id="" class="text-dark">Left</span> </th>
-							<th> <span id="" class="text-dark">Right</span> </th>
-						</tr>
-						<tr>
-							<td style="width: 40%"> <span class="ml-1">Nodes: </span> </td>
-							<td> <span id="numOfNodes" class="text-dark"></span> </td>
-							<td> <span id="otherNumOfNodes" class="text-dark"></span> </td>
-						</tr>
-						<tr>
-							<td> <span class="ml-1">Edges: </span> </td>
-							<td> <span id="numOfEdges" class="text-dark"></span> </td>
-							<td> <span id="otherNumOfEdges" class="text-dark"></span> </td>
-						</tr>
-						<tr>
-							<td> <span class="ml-1">Time (ms): </span> </td>
-							<td><span id="layoutTime" class="text-dark">-</span> </td>
-							<td><span id="otherLayoutTime" class="text-dark">-</span> </td>
-						</tr>        
-						<tr>
-							<td> <span class="ml-1">Edge crosses: </span> </td>
-							<td> <span id="numberOfEdgeCrosses" class="text-dark"></span> </td>
-							<td> <span id="otherNumberOfEdgeCrosses" class="text-dark"></span> </td>
-						</tr>
-						<tr>
-							<td><span class="ml-1">Node overlaps: </span></td>
-							<td><span id="numberOfNodeOverlaps" class="text-dark"></span></td>
-							<td><span id="otherNumberOfNodeOverlaps" class="text-dark"></span></td>
-						</tr>
-						<tr>
-							<td><span class="ml-1">Avg. edge length: </span></td>
-							<td><span id="averageEdgeLength" class="text-dark"></span></td>
-							<td><span id="otherAverageEdgeLength" class="text-dark"></span></td>
-						</tr>
-						<tr>
-							<td><span class="ml-1">Total area: </span></td>
-							<td><span id="totalArea" class="text-dark"></span></td>
-							<td><span id="otherTotalArea" class="text-dark"></span></td>
-						</tr>
-					</table>
-				</div>
-				<!-- <hr style="margin-bottom: 0"> -->
-				<!-- <div id="layoutOptions">
-					<h5 class="table-header ml-2 mt-2">Layout Options</h5>
-					<table class="table table-sm table-striped text-dark">
-						<tr>
-							<th style="width: 30%"> <span class="ml-1">Option</span> </th>
-							<th> <span id="" class="text-dark">Left</span> </th>
-							<th> <span id="" class="text-dark">Right</span> </th>
-						</tr>
-						<tr><td style="width: 20%" class='align-middle'><span class="ml-1">Initialization </span></td>
-							<td>
-								<select id="randomize" class="custom-select custom-control">
-									<option selected>Grid</option>
-									<option>Preset</option>
-									<option>Random</option>
-								</select>
-							</td>
-							<td>
-								<select id="randomizeOther" class="custom-control custom-select">
-									<option selected>Grid</option>
-									<option>Preset</option>
-									<option>Random</option>
-								</select>
-							</td>
-						</tr>
-	
-						<tr>
-							<td class="align-middle ml-1">
-								<span class="ml-1">Node Repulsion</span>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="repulsionConstant" value="10000">
-								</div>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="repulsionConstantOther" value="10000">
-								</div>
-							</td>
-						</tr>
-	
-						<tr>
-							<td class="align-middle ml-1">
-								<span class="ml-1">Edge Elasticity</span>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="edgeElasticity" value="0.2">
-								</div>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="edgeElasticityOther" value="0.2">
-								</div>
-							</td>
-						</tr>
-	
-						<tr>
-							<td class="align-middle ml-1">
-								<span class="ml-1">MARL Iterations</span>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="numIter" value="1000">
-								</div>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="numIterOther" value="1000">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td class="align-middle ml-1">
-								<span class="ml-1">Max Distance:</span>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="maxDistance" value="0">
-								</div>
-							</td>
-							<td>
-								<div class="col-xs-2">
-									<input class='form-control' type="number" id="maxDistanceOther" value="0">
-								</div>
-							</td>
-						</tr>
-					</table>
-				</div> -->
+	<div class="row" style="border-bottom: 1px solid #C5CBD0; margin-bottom: 0px;">
+		<div id="inspector" class="col-2">
+			<div id="graphProperties">
+				<h5 class="table-header ml-2 mt-2">Quality Metrics</h5>
+				<table class="table table-sm table-striped text-dark">
+					<tr>
+						<th style="width: 45%"> <span class="ml-1">Metric</span> </th>
+						<th> <span id="" class="text-dark">Left</span> </th>
+						<th> <span id="" class="text-dark">Right</span> </th>
+					</tr>
+					<tr>
+						<td style="width: 40%"> <span class="ml-1">Nodes: </span> </td>
+						<td> <span id="numOfNodes" class="text-dark"></span> </td>
+						<td> <span id="otherNumOfNodes" class="text-dark"></span> </td>
+					</tr>
+					<tr>
+						<td> <span class="ml-1">Edges: </span> </td>
+						<td> <span id="numOfEdges" class="text-dark"></span> </td>
+						<td> <span id="otherNumOfEdges" class="text-dark"></span> </td>
+					</tr>
+					<tr>
+						<td> <span class="ml-1">Time (ms): </span> </td>
+						<td><span id="layoutTime" class="text-dark">-</span> </td>
+						<td><span id="otherLayoutTime" class="text-dark">-</span> </td>
+					</tr>        
+					<tr>
+						<td> <span class="ml-1">Edge crosses: </span> </td>
+						<td> <span id="numberOfEdgeCrosses" class="text-dark"></span> </td>
+						<td> <span id="otherNumberOfEdgeCrosses" class="text-dark"></span> </td>
+					</tr>
+					<tr>
+						<td><span class="ml-1">Node overlaps: </span></td>
+						<td><span id="numberOfNodeOverlaps" class="text-dark"></span></td>
+						<td><span id="otherNumberOfNodeOverlaps" class="text-dark"></span></td>
+					</tr>
+					<tr>
+						<td><span class="ml-1">Avg. edge length: </span></td>
+						<td><span id="averageEdgeLength" class="text-dark"></span></td>
+						<td><span id="otherAverageEdgeLength" class="text-dark"></span></td>
+					</tr>
+					<tr>
+						<td><span class="ml-1">Total area: </span></td>
+						<td><span id="totalArea" class="text-dark"></span></td>
+						<td><span id="otherTotalArea" class="text-dark"></span></td>
+					</tr>
+				</table>
 			</div>
-			<div class="col-5 graph-container">
-				<!-- <div class="col-xs-3 mr-2 layoutDropdownLeft"> -->
-				<div class="layout-input input-group">
-					<div class="input-group-prepend">
-						<label class="input-group-text" for="layout">Layout:</label>
-					</div>
-					<select id="layout" class="custom-select">
-						<option value="FD">Force Directed Dogrusoz et al.</option>
-						<option value="FR">Force Directed Fruchterman and Reingold</option>
-						<option value="SM">Stress Majorization Gansner et al.</option>
-						<option value="MARL FD">MARL Dogrusoz et al.</option>
-						<option value="MARL FR">MARL Fruchterman and Reingold</option>
-						<option value="MARL Local Stress">MARL Local Stress Majorization</option>
-						<option value="MARL Global Stress">MARL Global Stress Majorization</option>
-						<option value="MARL Custom Reward">MARL Custom Reward</option>
-						<option value="MARL Incremental">MARL Incremental</option>
-						<option value="MARL Hybrid">MARL Hybrid</option>
-					</select>
-					<div class="input-group-append">
-						<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
-						<button id="stopLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
-					</div>
-					<div id="input-group-parameters" class="block-container">
-						<div class="block_title collapsed">Layout Parameters</div>
-						<div class="block_body">
-							<div id="layout-parameters" class="block_body-inner"></div>
-						</div>
-					</div>
-				</div>
-				<div>
-					
-					<div id="cyLeft" class='cy'></div>
-	
-				</div>
-				
-				
-			</div>
-			<div class="col-5 graph-container">
-				<div class="layout-input input-group">
-					<div class="input-group-prepend">
-						<label class="input-group-text" for="otherLayout">Layout:</label>
-					</div>
-					<select id="otherLayout" class="custom-select">
-						<option value="FD">Force Directed Dogrusoz et al.</option>
-						<option value="FR">Force Directed Fruchterman and Reingold</option>
-						<option value="SM">Stress Majorization Gansner et al.</option>
-						<option value="MARL FD" selected>MARL Dogrusoz et al.</option>
-						<option value="MARL FR">MARL Fruchterman and Reingold</option>
-						<option value="MARL Local Stress">MARL Local Stress Majorization</option>
-						<option value="MARL Global Stress">MARL Global Stress Majorization</option>
-						<option value="MARL Custom Reward">MARL Custom Reward</option>
-						<option value="MARL Incremental">MARL Incremental</option>
-						<option value="MARL Hybrid">MARL Hybrid</option>
-					</select>
-					<div class="input-group-append">
-						<button id="runOtherLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
-						<button id="stopOtherLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
-					</div>
-					<div id="input-other-group-parameters" class="block-container">
-						<div class="block_title collapsed">Layout Parameters</div>
-						<div class="block_body">
-							<div id="other-layout-parameters"  class="block_body-inner"></div>
-						</div>
-					</div>
 
-				</div>
-				<div id="cyRight" class='cy'></div>
+			<hr style="margin-bottom: 0">
+			<div id="layoutOptions">
+				<h5 class="table-header ml-2 mt-2">Settings</h5>
+				<table class="table table-sm table-striped text-dark">
+					<tr>
+						<th style="width: 30%"> <span class="ml-1">Option</span> </th>
+						<th> <span id="" class="text-dark">Left</span> </th>
+						<th> <span id="" class="text-dark">Right</span> </th>
+					</tr>
 
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">Node Size</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="nodeSize" value="20">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="nodeSizeOther" value="20">
+							</div>
+						</td>
+					</tr>
+
+				</table>
+			</div> 
+
+
+
+			<!-- <hr style="margin-bottom: 0"> -->
+			<!-- <div id="layoutOptions">
+				<h5 class="table-header ml-2 mt-2">Layout Options</h5>
+				<table class="table table-sm table-striped text-dark">
+					<tr>
+						<th style="width: 30%"> <span class="ml-1">Option</span> </th>
+						<th> <span id="" class="text-dark">Left</span> </th>
+						<th> <span id="" class="text-dark">Right</span> </th>
+					</tr>
+					<tr><td style="width: 20%" class='align-middle'><span class="ml-1">Initialization </span></td>
+						<td>
+							<select id="randomize" class="custom-select custom-control">
+								<option selected>Grid</option>
+								<option>Preset</option>
+								<option>Random</option>
+							</select>
+						</td>
+						<td>
+							<select id="randomizeOther" class="custom-control custom-select">
+								<option selected>Grid</option>
+								<option>Preset</option>
+								<option>Random</option>
+							</select>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">Node Repulsion</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="repulsionConstant" value="10000">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="repulsionConstantOther" value="10000">
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">Edge Elasticity</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="edgeElasticity" value="0.2">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="edgeElasticityOther" value="0.2">
+							</div>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">MARL Iterations</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="numIter" value="1000">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="numIterOther" value="1000">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="align-middle ml-1">
+							<span class="ml-1">Max Distance:</span>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="maxDistance" value="0">
+							</div>
+						</td>
+						<td>
+							<div class="col-xs-2">
+								<input class='form-control' type="number" id="maxDistanceOther" value="0">
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div> -->
+		</div>
+		<div class="col-5 graph-container">
+			<!-- <div class="col-xs-3 mr-2 layoutDropdownLeft"> -->
+			<div class="layout-input input-group">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="layout">Layout:</label>
+				</div>
+				<select id="layout" class="custom-select">
+					<option value="FD" selected>DGC (Dogrusoz et al.)</option>
+					<option value="FR">FR (Fruchterman and Reingold)</option>
+					<option value="SM">Stress Majorization (Gansner et al.)</option>
+					<option value="MARL FD">MARL DGC</option>
+					<option value="MARL FR">MARL FR</option>
+					<option value="MARL Local Stress">MARL Local Stress</option>
+					<option value="MARL Global Stress">MARL Global Stress</option>
+					<option value="MARL Custom Reward">MARL Custom</option>
+					<option value="MARL Hybrid">MARL Hybrid</option>
+					<option value="MARL Incremental">MARL Incremental</option>
+				</select>
+				<div class="input-group-append">
+					<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
+					<button id="stopLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
+				</div>
+				<div id="input-group-parameters" class="block-container">
+					<div class="block_title collapsed">Layout Parameters</div>
+					<div class="block_body">
+						<div id="layout-parameters" class="block_body-inner"></div>
+					</div>
+				</div>
 			</div>
+			<div id="cyLeft" class='cy'></div>
+		</div>
+		<div class="col-5 graph-container">
+			<div class="layout-input input-group">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="otherLayout">Layout:</label>
+				</div>
+				<select id="otherLayout" class="custom-select">
+					<option value="FD"><strong>DGC</strong> (Dogrusoz et al.)</option>
+					<option value="FR">FR (Fruchterman and Reingold)</option>
+					<option value="SM">Stress Majorization (Gansner et al.)</option>
+					<option value="MARL FD" selected>MARL DGC</option>
+					<option value="MARL FR">MARL FR</option>
+					<option value="MARL Local Stress">MARL Local Stress</option>
+					<option value="MARL Global Stress">MARL Global Stress</option>
+					<option value="MARL Custom Reward">MARL Custom</option>
+					<option value="MARL Hybrid">MARL Hybrid</option>
+					<option value="MARL Incremental">MARL Incremental</option>
+				</select>
+				<div class="input-group-append">
+					<button id="runOtherLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
+					<button id="stopOtherLayout" type="button" class="btn fa btn-light fa-stop mybutton btn-danger" data-toggle="tooltip" title="Stop Layout"></button>
+				</div>
+				<div id="input-other-group-parameters" class="block-container">
+					<div class="block_title collapsed">Layout Parameters</div>
+					<div class="block_body">
+						<div id="other-layout-parameters"  class="block_body-inner"></div>
+					</div>
+				</div>
+			</div>
+			<div id="cyRight" class='cy'></div>
 		</div>
 	</div>
-		
 		
 
 		

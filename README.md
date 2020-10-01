@@ -1,5 +1,5 @@
 # MARLL
-A demo tool for the [multi-agent reinforcement learning layout extension](https://github.com/kinimesi/cytoscape.js-marll). You can access the online tool [here](https://kinimesi.github.io/marl-layout-demo/).
+A demo tool for the [multi-agent reinforcement learning layout extension](https://github.com/kinimesi/cytoscape.js-marll). You can access an online version of the tool [here](https://kinimesi.github.io/marl-layout-demo/).
 
 #### Running a Local Instance
 In order to deploy and run a local instance of the tool, please follow the steps below:

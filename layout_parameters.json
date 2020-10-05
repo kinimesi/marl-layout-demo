@@ -92,8 +92,8 @@
                 "type": "range",
                 "range_min": 0,
                 "range_max": 1,
-                "range_value": 0,
-                "range_step": 0.1
+                "range_value": 0.0001,
+                "range_step": 0.001
             }
         ]
     },
@@ -210,8 +210,8 @@
                 "type": "range",
                 "range_min": 0,
                 "range_max": 1,
-                "range_value": 0,
-                "range_step": 0.1
+                "range_value": 0.0001,
+                "range_step": 0.001
             }
 
         ]
@@ -321,8 +321,8 @@
                 "type": "range",
                 "range_min": 0,
                 "range_max": 1,
-                "range_value": 0,
-                "range_step": 0.1
+                "range_value": 0.0001,
+                "range_step": 0.001
             }
 
         ]

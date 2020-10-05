@@ -14,6 +14,7 @@
 
 	</head>
 	<body>
+	<div class='container-fluid'>
 	<div id="header-group" class="row">
 		<div class="col-1" style="padding-left:30px;">
 			<a class="nav-link main-title" title='Multi-agent reinforcement learning layout' href="#">MARLL</a>
@@ -55,13 +56,16 @@
 					<label class="input-group-text" for="samples">Graph:</label>
 				</div>
 				<select id="samples" class="custom-select">
-					<option value='sample1.json'>Synthetic</option>
-					<option value='bcspwr01.graphml'>Power plant_a</option>
-					<option value='karate.graphml'>Karate</option>
+					<option value='karate.graphml'>karate</option>
+					<option value='bcspwr01.graphml'>bcspwr01</option>
+					<option value='sample1.json' selected>synthetic</option>
+					<option value='lesmiserables.graphml'>lesmiserables</option>
 					<option value='GD99_c.graphml'>GD99_c</option>
-					<option value='bcspwr03.graphml'>Power plant_b</option>
-					<option value='lesmiserables.graphml'>Les Miserables</option>
-					<option value='rajat05.graphml'>Rajat</option>
+					<option value='bcspwr03.graphml'>bcspwr03</option>
+					<option value='rajat05.graphml'>rajat05</option>
+					<option value='GD00_c.graphml'>GD00_c</option>
+					<option value='crime_moreno.graphml'>crime_moreno</option>
+					<option value='maayan-faa.graphml'>maayan-faa</option>
 				</select>
 			</div>
 		</div>
@@ -309,7 +313,6 @@
 					<option value="MARL Global Stress">MARL Global Stress</option>
 					<option value="MARL Custom Reward">MARL Custom</option>
 					<option value="MARL Hybrid">MARL Hybrid</option>
-					<option value="MARL Incremental">MARL Incremental</option>
 				</select>
 				<div class="input-group-append">
 					<button id="runLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
@@ -339,7 +342,6 @@
 					<option value="MARL Global Stress">MARL Global Stress</option>
 					<option value="MARL Custom Reward">MARL Custom</option>
 					<option value="MARL Hybrid">MARL Hybrid</option>
-					<option value="MARL Incremental">MARL Incremental</option>
 				</select>
 				<div class="input-group-append">
 					<button id="runOtherLayout" type="button" class="btn fa btn-light fa-play mybutton" data-toggle="tooltip" title="Run layout"></button>
@@ -354,17 +356,18 @@
 			</div>
 			<div id="cyRight" class='cy'></div>
 		</div>
+		<div id='spinner' class="d-flex justify-content-center align-items-center ">
+			<i class="fa fa-spinner fa-spin fa-3x fa-fw text-danger"></i>
+		</div>
 	</div>
 		
 
 		
 		
-		<div id='spinner' class="d-flex justify-content-center align-items-center hide">
-			<i class="fa fa-spinner fa-spin fa-3x fa-fw text-danger"></i>
-		</div>
 
 
 		<script src="cytoscape-tsv.js"></script>
 		<script src="bundle.js"></script>
+	</div>
 	</body>
 </html>

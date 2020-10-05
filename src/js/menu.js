@@ -281,6 +281,14 @@ $("body").on("click", "#runLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("layout").value;
+	let incremental;
+	if(document.getElementById("input-Incremental-layout")){
+		incremental = (document.getElementById("input-Incremental-layout").value == 'True');
+	}
+
+	if (incremental) {
+		document.getElementById('input-Initialization-layout').value = 'Preset';
+	}
 	// let randomize = document.getElementById('randomize').value == 'Random';
 	let randomize;
 	if(document.getElementById('input-Initialization-layout')){
@@ -313,7 +321,7 @@ $("body").on("click", "#runLayout", function(){
 			cy.layout({'name': 'grid', padding: layoutPadding}).run();
 		}
 	}
-	layout = runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
+	layout = runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance, incremental);
 	console.log(layout)
 });
 
@@ -321,6 +329,15 @@ $("body").on("click", "#runOtherLayout", function(){
 	$('#spinner').removeClass('hide');
 
 	let layoutType = document.getElementById("otherLayout").value;
+	let incremental;
+	if(document.getElementById("input-Incremental-other-layout")){
+		incremental = (document.getElementById("input-Incremental-other-layout").value == 'True');
+	}
+
+	if (incremental) {
+		document.getElementById('input-Initialization-other-layout').value = 'Preset';
+	}
+
 	// let randomize = document.getElementById('randomizeOther').value == 'Random';
 	let randomize;
 	if(document.getElementById('input-Initialization-other-layout')){
@@ -351,7 +368,7 @@ $("body").on("click", "#runOtherLayout", function(){
 			otherCy.layout({'name': 'grid', padding: layoutPadding}).run();
 		}
 	}
-	otherLayout = runLayout(otherCy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance);
+	otherLayout = runLayout(otherCy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance, incremental);
 });
 
 
@@ -367,7 +384,7 @@ $("body").on("click", "#stopOtherLayout", function(){
 		otherLayout = null;
 	}
 });
-function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance = 0) {
+function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeElasticity, maxDistance = 0, incremental = false) {
 	let startTime;
 	let endTime;
 	let layout;
@@ -388,6 +405,8 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
 			idealEdgeLength: 30,
+			incremental: incremental,
+			newNodes: cy.nodes(':selected'),
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -402,6 +421,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'forceDirectedFR',
 			idealEdgeLength: 25,
+			incremental: incremental,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -430,6 +450,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 			springConstant: edgeElasticity, refresh: 15,
 			maxIterations: numIter, animate: true,
 			rewardFunction: 'hybrid',
+			incremental: incremental,
 			stop: () => {
 				endTime = performance.now();
 				evaluate(endTime - startTime);
@@ -448,6 +469,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
+			incremental: incremental,
 		});
 	} else if(layoutType == "MARL Global Stress"){
 		startTime = performance.now();
@@ -460,6 +482,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
+			incremental: incremental,
 		});
 	} else if(layoutType == "MARL Custom Reward"){
 		startTime = performance.now();
@@ -472,6 +495,7 @@ function runLayout(cy, layoutType, randomize, numIter, repulsionConstant, edgeEl
 				endTime = performance.now();
 				evaluate(endTime - startTime);
 			},
+			incremental: incremental,
 		});
 	} else if(layoutType == "SM"){
 		startTime = performance.now();

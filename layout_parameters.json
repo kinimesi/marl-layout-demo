@@ -105,6 +105,10 @@
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
             },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
+            },
             {
                 "param_name": "Node Repulsion",
                 "type": "range",
@@ -148,6 +152,10 @@
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
             },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
+            },
             {
                 "param_name": "MARL Iterations",
                 "type": "range",
@@ -174,6 +182,10 @@
                 "param_name": "Initialization",
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
+            },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
             },
             {
                 "param_name": "MARL Iterations",
@@ -212,6 +224,10 @@
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
             },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
+            },
             {
                 "param_name": "MARL Iterations",
                 "type": "range",
@@ -239,6 +255,10 @@
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
             },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
+            },
             {
                 "param_name": "MARL Iterations",
                 "type": "range",
@@ -265,6 +285,10 @@
                 "param_name": "Initialization",
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
+            },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
             },
             {
                 "param_name": "MARL Iterations",
@@ -310,6 +334,10 @@
                 "param_name": "Initialization",
                 "type": "dropdown",
                 "options": ["Grid", "Preset", "Random"]
+            },
+            {   "param_name": "Incremental",
+                "type": "dropdown",
+                "options": ["False", "True"]
             },
             {
                 "param_name": "MARL Iterations",

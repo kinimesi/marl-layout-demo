@@ -29,11 +29,10 @@ class GraphViz {
 			.then(result => {
 				let layout = JSON.parse(result);
 				layout.objects.forEach(node => {
-					console.log(node)
 					let pos = node.pos.split(',');
 					cy.$('#' + node.name).position({
 						x: Number(pos[0]), y: Number(pos[1])
-					}).style('background-color',color_dict(i));
+					})//.style('background-color',color_dict(i));
 					i+=1;
 				})
 
